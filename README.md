@@ -1,4 +1,4 @@
-# tigerobo
+# template
 
 ## Project setup
 ```

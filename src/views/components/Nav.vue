@@ -1,39 +1,39 @@
 <template>
-<div>
-  <el-menu
+  <div>
+    <el-menu
       ref="menu"
       mode="vertical"
       :default-active="activeIndex"
       :router="true"
-  >
-    <template v-for="(item, index) in menu">
-      <el-menu-item
+    >
+      <template v-for="(item, index) in menu">
+        <el-menu-item
+          v-if="!item.children"
           :key="index"
           :index="item.path"
-          v-if="!item.children"
-      >
-        {{item.meta.title}}
-      </el-menu-item>
+        >
+          {{ item.meta.title }}
+        </el-menu-item>
 
-      <el-submenu :key="index" :index="item.path" popper-append-to-body v-else>
-        <template slot="title">
-          <span>{{item.meta.title}}</span>
-        </template>
-        <template v-for="child in item.children">
-          <el-menu-item :index="item.path + '/' + child.path" :key="child.path">
-            {{child.meta.title}}
-          </el-menu-item>
-        </template>
-      </el-submenu>
-    </template>
-  </el-menu>
-</div>
+        <el-submenu v-else :key="index" :index="item.path" popper-append-to-body>
+          <template slot="title">
+            <span>{{ item.meta.title }}</span>
+          </template>
+          <template v-for="child in item.children">
+            <el-menu-item :key="child.path" :index="item.path + '/' + child.path">
+              {{ child.meta.title }}
+            </el-menu-item>
+          </template>
+        </el-submenu>
+      </template>
+    </el-menu>
+  </div>
 </template>
 
 <script>
-import menuRoutes from "@/router/routers";
+import menuRoutes from '@/router/routers'
 export default {
-  name: "Nav",
+  name: 'Nav',
   data() {
     return {
       activeIndex: '0',
@@ -41,7 +41,7 @@ export default {
     }
   },
   created() {
-    console.log(menuRoutes, 33333);
+    console.log(menuRoutes, 33333)
     this.menu = menuRoutes
   }
 }

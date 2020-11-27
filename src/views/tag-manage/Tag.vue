@@ -1,10 +1,10 @@
 <template>
-  <div>我是登陆页面</div>
+  <div>我是tag</div>
 </template>
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Tag'
 }
 </script>
 

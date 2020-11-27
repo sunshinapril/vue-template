@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <nprogress-container></nprogress-container>
+    <nprogress-container />
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <router-view />
     </transition>
   </div>
 </template>
 
 <script>
-import NprogressContainer from 'vue-nprogress/src/NprogressContainer';
+import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 export default {
   name: 'App',
   components: {

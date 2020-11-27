@@ -1,96 +1,96 @@
-import DatePickerUtilsObj from '@/utils/DatePickerUtils.js';
+import DatePickerUtilsObj from '@/utils/DatePickerUtils.js'
 
-let DatePickerUtils = DatePickerUtilsObj();
+const DatePickerUtils = DatePickerUtilsObj()
 
 export default {
   disabledDate(time) {
-    let curDate = (new Date()).getTime();
-    let three = 90 * 24 * 3600 * 1000;
-    let threeMonths = curDate - three;
-    return time.getTime() > Date.now() || time.getTime() < threeMonths;
+    const curDate = (new Date()).getTime()
+    const three = 90 * 24 * 3600 * 1000
+    const threeMonths = curDate - three
+    return time.getTime() > Date.now() || time.getTime() < threeMonths
   },
   shortcuts: [
     {
       text: '昨天',
       onClick(picker) {
-        const end = new Date();
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
-        end.setTime(end.getTime() - 3600 * 1000 * 24 * 1);
-        picker.$emit('pick', [start, end]);
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 1)
+        end.setTime(end.getTime() - 3600 * 1000 * 24 * 1)
+        picker.$emit('pick', [start, end])
       }
     },
     {
       text: '今天',
       onClick(picker) {
-        const end = new Date();
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 0);
-        picker.$emit('pick', [start, end]);
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 0)
+        picker.$emit('pick', [start, end])
       }
     },
-    // {
-    //     text: '明天',
-    //     onClick(picker) {
-    //         const end = new Date();
-    //         const start = new Date();
-    //         start.setTime(start.getTime() + 3600 * 1000 * 24 * 1);
-    //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 1);
-    //         picker.$emit('pick', [start, end]);
-    //     }
-    // },
     {
+      text: '明天',
+      onClick(picker) {
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() + 3600 * 1000 * 24 * 1)
+        end.setTime(end.getTime() + 3600 * 1000 * 24 * 1)
+        picker.$emit('pick', [start, end])
+      }
+    },
+    /* {
       text: '最近七天',
       onClick(picker) {
-        const end = new Date();
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
-        picker.$emit('pick', [start, end]);
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
+        picker.$emit('pick', [start, end])
       }
-    },
+    },*/
     {
       text: '上周',
       onClick(picker) {
-        const end = new Date();
-        const start = new Date();
-        const getDay = new Date().getDay();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * (6 + getDay));
-        end.setTime(end.getTime() - 3600 * 1000 * 24 * getDay);
-        picker.$emit('pick', [start, end]);
+        const end = new Date()
+        const start = new Date()
+        const getDay = new Date().getDay()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * (6 + getDay))
+        end.setTime(end.getTime() - 3600 * 1000 * 24 * getDay)
+        picker.$emit('pick', [start, end])
       }
     },
-    // {
-    //     text: '未来七天',
-    //     onClick(picker) {
-    //         const end = new Date();
-    //         const start = new Date();
-    //         start.setTime(start.getTime() + 3600 * 1000 * 24 * 1);
-    //         end.setTime(start.getTime() + 3600 * 1000 * 24 * 6);
-    //         picker.$emit('pick', [start, end]);
-    //     }
-    // },
+    /* {
+      text: '未来七天',
+      onClick(picker) {
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() + 3600 * 1000 * 24 * 1)
+        end.setTime(start.getTime() + 3600 * 1000 * 24 * 6)
+        picker.$emit('pick', [start, end])
+      }
+    },*/
     {
       text: '上个月',
       onClick(picker) {
-        let d = DatePickerUtils.ghGetPreMonthStartDate();
-        let m = DatePickerUtils.ghGetPreMonthEndDate();
-        const start = new Date(d);
-        const end = new Date(m);
-        start.setTime(start);
-        end.setTime(end);
-        picker.$emit('pick', [start, end]);
+        const d = DatePickerUtils.ghGetPreMonthStartDate()
+        const m = DatePickerUtils.ghGetPreMonthEndDate()
+        const start = new Date(d)
+        const end = new Date(m)
+        start.setTime(start)
+        end.setTime(end)
+        picker.$emit('pick', [start, end])
       }
     },
     {
       text: '本月',
       onClick(picker) {
-        let d = DatePickerUtils.ghGetMonthStartDate();
+        const d = DatePickerUtils.ghGetMonthStartDate()
         // let m = DatePickerUtils.ghGetMonthEndDate();
-        const start = new Date(d);
-        const end = new Date();
-        start.setTime(start);
-        end.setTime(end);
-        picker.$emit('pick', [start, end]);
+        const start = new Date(d)
+        const end = new Date()
+        start.setTime(start)
+        end.setTime(end)
+        picker.$emit('pick', [start, end])
       }
     }
     // {
@@ -117,4 +117,4 @@ export default {
     //      }
     //  }
   ]
-};
+}

@@ -15,13 +15,13 @@ export default {
       imgUrl: imgUrl
     }
   },
+  mounted() {
+    this.homeUrl()
+  },
   methods: {
     homeUrl() {
       // this.url = `${getOldSystemRoute()}#/home/index`;
     }
-  },
-  mounted() {
-    this.homeUrl();
   }
 }
 </script>

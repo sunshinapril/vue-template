@@ -1,19 +1,19 @@
 <template>
-<div>
-  <p class="text-overflow--1">666</p>
-  <el-button type="primary">查询</el-button>
-  <t-date-picker
-    @on-change="dateFormPickerChange"
-    ref="dateFormPicker"
-    :value="dateRange"
-  ></t-date-picker>
-</div>
+  <div>
+    <p class="text-overflow--1">666</p>
+    <el-button type="primary">查询</el-button>
+    <t-date-picker
+      ref="dateFormPicker"
+      :value="dateRange"
+      @on-change="dateFormPickerChange"
+    />
+  </div>
 </template>
 
 <script>
 import TDatePicker from '@/components/date-picker'
 export default {
-  name: "test.vue",
+  name: 'TestVue',
   components: {
     TDatePicker
   },
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     dateFormPickerChange(val) {
-      console.log(val);
+      console.log(val)
     }
   }
 }

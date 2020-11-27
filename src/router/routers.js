@@ -1,15 +1,25 @@
-import testManage from '@/router/testManage';
-// import marketManage from './marketManage';
+import testManage from '@/router/testManage'
+import tagManage from './tagManage'
+import Home from '@/views/Home'
 
 const menuRoutes = [
-        testManage,
-    // marketManage
-];
+  {
+    path: '/home',
+    component: Home,
+    name: '首页',
+    meta: {
+      title: '首页',
+      isMenu: true
+    }
+  },
+  testManage,
+  tagManage
+]
 
-export default menuRoutes;
+export default menuRoutes
 
 // todo 权限过滤
-/*export function filterMenuRoute(perm = [], routes = menuRoutes) {
+/* export function filterMenuRoute(perm = [], routes = menuRoutes) {
     // 菜单路由
     const filterMenuRoute = routes => {
         let menuRoutes = routes.filter(
