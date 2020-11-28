@@ -4,7 +4,7 @@ const Outlet = {
 }
 export default {
   name: '测试',
-  path: '/home',
+  path: '/test',
   component: test,
   children: [
     {

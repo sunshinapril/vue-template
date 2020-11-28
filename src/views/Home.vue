@@ -1,6 +1,6 @@
 <template>
-  <div>
-    我是首页
+  <div class="home-box">
+    我是首页lalla
   </div>
 </template>
 
@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+.home-box {
+  display: flex;
+}
 </style>

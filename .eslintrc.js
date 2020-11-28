@@ -20,10 +20,6 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
-    "vue/require-default-prop": ["error", {
-      "required": false,
-      "no-required": false
-    }],
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline":"off",
     "vue/name-property-casing": ["error", "PascalCase"],
