@@ -13,7 +13,6 @@ import TTag from './TElement/TTag'
 import TDatePicker from './TElement/TDatePicker'
 import TAutoComplete from './TElement/TAutoComplete'
 import TCascader from './TElement/TCascader'
-import MessageBox from '@/components/MessageBox'
 
 export default {
   install(Vue) {
@@ -32,7 +31,5 @@ export default {
     Vue.component(TDatePicker.name, TDatePicker)
     Vue.component(TAutoComplete.name, TAutoComplete)
     Vue.component(TCascader.name, TCascader)
-    Vue.prototype.$messageBox = MessageBox.confirm
-    Vue.prototype.$alertBox = MessageBox.alert
   }
 }
