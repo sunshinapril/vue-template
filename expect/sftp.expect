@@ -1,0 +1,57 @@
+#!/usr/bin/expect -f
+
+#-----------------------------用户配置--------------------------------#
+#设置用户名
+set user zhengyun.ge
+
+#设置密码 (我本机免密码, 不需要)
+set password ge.zhengyun@
+
+
+#设置变量
+set current_dir [exec pwd]
+
+
+#需要上传到哪一台服务器，服务器维护之后，这个地址有变化，对应poc-manager机器上的/tmp目录 ##need-config
+set remote_machine_name Default/tob/sentryward/tob-sentryward-001
+
+
+#需要上传到服务器的哪一个目录(一般情况下, 这个目录的名字, 和我们本地项目目录的名字应该是一致的,
+#和zip包名也是一致的)--##need-config
+set appname swp
+
+
+#需要上传到服务器的, 本地打包的, zip 文件的目录 的本地 .zip 文件
+set upload_zip_path ${current_dir}/${appname}.zip
+
+
+#上传到服务器的地址
+set remote_machine_path /${remote_machine_name}/
+
+
+set remote_address ssh.aigauss.com
+set timeout -1
+
+#-----------------------------本地zip 压缩阶段--------------------------------#
+
+spawn cd ${current_dir}
+spawn mv dist ${appname}
+set hello [exec zip -r ${appname}.zip ${appname}/]
+
+
+
+#-----------------------------上传服务器阶段--------------------------------#
+
+
+#1. 首先登录到 sfp 服务器, 因为我本机设置了不需要登录, 所以下面两句密码相关的就不需要了;
+spawn sftp $user@$remote_address
+expect "*password:"
+send "${password}\r"
+
+#2. 在登录到 sftp 服务器之后, 将本地已经打包好的 .zip 文件, 上传到服务器上
+expect "*sftp>*"
+send "put ${upload_zip_path} ${remote_machine_path} \r"
+expect "*sftp>*"
+
+send "exit \r"
+

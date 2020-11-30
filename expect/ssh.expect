@@ -1,0 +1,103 @@
+#!/usr/bin/expect -f
+
+
+#-----------------------------用户配置--------------------------------#
+#设置用户名
+set user zhengyun.ge
+
+#设置密码 (我本机免密码, 不需要)
+set password ge.zhengyun@
+
+
+# 设置变量
+set current_dir [exec pwd]
+
+
+#需要上传到哪一台服务器 ----------------------- need config
+set remote_machine_name tob-sentryward-001
+
+
+#需要上传到服务器的哪一个目录(一般情况下, 这个目录的名字, 和我们本地项目目录的名字应该是一致的,
+#和zip包名也是一致的)------------------------- need config
+set appname swp
+
+#上传到服务器的地址
+set remote_address ssh.aigauss.com
+set timeout -1
+
+
+#-----------------------------登录服务器阶段--------------------------------#
+
+
+spawn ssh $user@$remote_address
+expect "*password:"
+send "${password}\r"
+
+expect "Opt>"
+send "${remote_machine_name}\r"
+
+expect "*${remote_machine_name}*"
+send "sudo su\r"
+
+#-----------------------------服务器文件操作阶段--------------------------------#
+
+# 先将希望覆盖掉的那个目录, 重命名
+expect "*${remote_machine_name}*"
+send "rm -rf /opt/${appname}\r"
+
+# 再将 zip 文件解压到 frontend 目录下
+expect "*${remote_machine_name}*"
+send "unzip -o /tmp/${appname}.zip -d /opt/\r"
+
+#-------------------------------- 创建软链-------------------------------#
+# expect "*${remote_machine_name}*"
+# send "sudo ln -s /opt/tigerye/frontend/${appname} /usr/share/tomcat8/webapps/${appname}\r"
+
+expect "*${remote_machine_name}*"
+send "exit\r"
+
+expect "exit"
+send "exit\r"
+
+expect "Opt>"
+send "exit\r"
+
+expect "Connection to ssh.aigauss.com closed"
+spawn cd ${current_dir}
+
+# 删掉 上一次打包的 .zip 文件
+spawn rm -rf ${appname}.zip
+
+# 将 文件重命名成 dist, 因为担心会使用到
+spawn mv ${appname} dist
+
+expect eof
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,7 +6,10 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "preview": "vue-cli-service build --mode preview",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "upload": "./expect/sftp.expect && ./expect/ssh.expect",
+    "up:prd": "npm run build && npm run upload",
+    "up:pre": "npm run preview && npm run upload"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
