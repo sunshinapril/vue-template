@@ -1,6 +1,5 @@
 <style lang="less" scoped>
 @import '~@/styles/colors.less';
-@import '~@/styles/mixins.less';
 .task-block {
   display: inline-block;
   margin-right: 16px;
@@ -52,37 +51,48 @@
   <div class="task-block t-panel" @click="onClickTask">
     <div class="header">
       <img :src="icon.task" alt="" class="icon--task">
-      <span class="name">{{data.taskName}}</span>
-      <span class="flex"></span>
+      <span class="name">{{ data.taskName }}</span>
+      <span class="flex" />
 
-      <div @click.stop="()=>{}" v-if="showCheck">
-        <el-checkbox v-model="checked"></el-checkbox>
+      <div v-if="showCheck" @click.stop="()=>{}">
+        <el-checkbox v-model="checked" />
       </div>
 
     </div>
     <div class="body">
-      <div class="num bold">{{data.todayWarnCount}}</div>
+      <div class="num bold">{{ data.todayWarnCount }}</div>
       <div class="name">今日预警量</div>
     </div>
     <div class="footer">
-      累计: {{data.totalWarnCount}}
+      累计: {{ data.totalWarnCount }}
     </div>
   </div>
 </template>
 <script>
 import task from '@/assets/task_icon@2x.png'
+
 export default {
   name: '',
   components: {},
   props: {
     data: {
-      default () {
+      type: Object,
+      default() {
         return {}
       },
       required: true
     },
     showCheck: {
+      type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      icon: {
+        task
+      },
+      task: ''
     }
   },
   computed: {
@@ -107,20 +117,13 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      icon: {
-        task
-      },
-      task: ''
-    }
+  mounted() {
   },
-  mounted() {},
   methods: {
-    remove () {
-      this.checked = false;
+    remove() {
+      this.checked = false
     },
-    onClickTask () {
+    onClickTask() {
       this.$emit('click-task', this.data)
     }
   }

@@ -1,31 +1,38 @@
 <template>
   <div>
     <div class="title">
-      <span class="mood" :class="TagTypeMap(item.titleEmotion)" v-if="MoodTypeMap(item.titleEmotion)">{{MoodTypeMap(item.titleEmotion)}}</span>
-      <span class="title-body text-overflow--1" :class="{active: item.originContent}" @click="onSkip(item)" v-html="$options.filters.HighLight(item.title, keyWord)"></span>
+      <span v-if="MoodTypeMap(item.titleEmotion)" class="mood"
+            :class="TagTypeMap(item.titleEmotion)"
+      >{{ MoodTypeMap(item.titleEmotion) }}</span>
+      <span class="title-body text-overflow--1" :class="{active: item.originContent}" @click="onSkip(item)"
+            v-html="$options.filters.HighLight(item.title, keyWord)"
+      />
     </div>
     <div class="tag text-overflow--1">
-      <TTag effect="dark" v-for="tag in item.conceptsModel" type="success" :key="tag.id">{{tag.name}}</TTag>
+      <TTag v-for="tag in item.conceptsModel" :key="tag.id" effect="dark" type="success">{{ tag.name }}</TTag>
       <TTag v-for="tag in entityRisk" :key="tag.id" class="item" effect="dark" :type="tag.type">
         {{ tag.name }}
       </TTag>
-      <TTag effect="dark" type="danger" v-for="tag in otherRisk" :key="tag.name" class="item">
+      <TTag v-for="tag in otherRisk" :key="tag.name" effect="dark" type="danger" class="item">
         {{ tag.name }}
       </TTag>
       <TTag v-for="tag in customModel" :key="tag.id" class="item" effect="dark" type="primary">{{ tag.name }}</TTag>
     </div>
-    <div class="content text-overflow--2" v-html="$options.filters.HighLight(item.paragraphs[0].paragraph, keyWord)"></div>
+    <div class="content text-overflow--2"
+         v-html="$options.filters.HighLight(item.paragraphs[0].paragraph, keyWord)"
+    />
     <div class="origin">
-      <span class="t-time" v-if="item.publishTime">{{item.publishTime}}</span>
-      <span v-if="item.source">来源：{{item.source}}</span>
+      <span v-if="item.publishTime" class="t-time">{{ item.publishTime }}</span>
+      <span v-if="item.source">来源：{{ item.source }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import {TagTypeMap, MoodTypeMap} from "@/helpers/tagManage";
+import { TagTypeMap, MoodTypeMap } from './typeMap'
+
 export default {
-  name: "TNewItem",
+  name: 'TNewItem',
   props: ['item', 'href', 'keyWord'],
   data() {
     return {
@@ -48,15 +55,15 @@ export default {
     onSkip(item) {
       if (this.href && item.originContent) {
         const { href } = this.$router.resolve({
-          path: `${this.href}${item.id}`,
-        });
-        window.open(href, '_blank');
+          path: `${this.href}${item.id}`
+        })
+        window.open(href, '_blank')
       }
     },
     handlerData(data) {
-      let entityRisk = [];
-      let customModel = [];
-      let otherRisk = [];
+      let entityRisk = []
+      const customModel = []
+      const otherRisk = []
       // 对实体标签做处理1、实体且风险--实体风险2、实体非风险--其他标签3、非实体且风险--其他风险
       data.entityRisk.forEach(item => {
         if (item.entityName && (item.level1Name || item.level2Name)) {
@@ -93,9 +100,9 @@ export default {
           }
         }
       })
-      this.entityRisk = entityRisk;
-      this.customModel = [...customModel, ...data.customModel];
-      this.otherRisk = otherRisk;
+      this.entityRisk = entityRisk
+      this.customModel = [...customModel, ...data.customModel]
+      this.otherRisk = otherRisk
     }
   }
 }
@@ -112,7 +119,7 @@ export default {
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
-  span{
+  span {
     &.mood {
       width: 50px;
       &.danger {
@@ -135,7 +142,7 @@ export default {
 }
 .tag {
   margin-bottom: 9px;
-  span{
+  span {
     margin-right: 8px;
   }
 }

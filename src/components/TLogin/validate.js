@@ -1,14 +1,15 @@
 // 必须至少包含数字、小写字母、大写字母、其它字符中的三种
 function ValidPassword(pwd) {
-  const hasNumber = /[\d]/.test(pwd);
-  const hasLowerCaseLetter = /[a-z]/.test(pwd);
-  const hasUpperCaseLetter = /[A-Z]/.test(pwd);
-  const hasOther = /[^\da-zA-Z]/.test(pwd);
+  const hasNumber = /[\d]/.test(pwd)
+  const hasLowerCaseLetter = /[a-z]/.test(pwd)
+  const hasUpperCaseLetter = /[A-Z]/.test(pwd)
+  const hasOther = /[^\da-zA-Z]/.test(pwd)
   if (Number(hasNumber) + Number(hasLowerCaseLetter) + Number(hasUpperCaseLetter) + Number(hasOther) < 3) {
     return false
   }
-  return true;
+  return true
 }
+
 // 长度6-20位
 function ValidLengthInterval(val) {
   return /^.{6,20}$/.test(val)
@@ -42,5 +43,4 @@ export default {
   ValidMaxLength,
   ValidMinLength
 }
-
 

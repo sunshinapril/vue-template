@@ -5,25 +5,30 @@
     </div>
     <div class="l-tab">
       <t-tab v-model="activeTab" @tab-click="handleClick">
-        <el-tab-pane v-for="tab in tabMap" :key="tab.name" :label="tab.name" :name="tab.value"></el-tab-pane>
+        <el-tab-pane v-for="tab in tabMap" :key="tab.name" :label="tab.name" :name="tab.value" />
       </t-tab>
     </div>
     <div class="l-main">
       <el-form
+        v-show="activeTab === tabMap[0].value"
         ref="loginForm"
         class="login-form"
-        v-show="activeTab === tabMap[0].value"
         :rules="loginRules"
-        :model="loginForm">
+        :model="loginForm"
+      >
         <el-form-item prop="userName">
-          <t-input v-model.trim="loginForm.userName" placeholder="请输入用户名" @keyup.enter.native="onSubmit"></t-input>
+          <t-input v-model.trim="loginForm.userName" placeholder="请输入用户名" @keyup.enter.native="onSubmit" />
         </el-form-item>
         <el-form-item prop="password">
-          <t-input type="password" v-model.trim="loginForm.password" placeholder="请输入密码" @keyup.enter.native="onSubmit"></t-input>
+          <t-input v-model.trim="loginForm.password" type="password" placeholder="请输入密码"
+                   @keyup.enter.native="onSubmit"
+          />
           <text-button class="p-forget" @click="showForget = true">忘记密码</text-button>
         </el-form-item>
         <el-form-item prop="imgVerifyCode" class="t-form-item">
-          <t-input style="width: 212px;" v-model.trim="loginForm.imgVerifyCode" placeholder="验证码" @keyup.enter.native="onSubmit"></t-input>
+          <t-input v-model.trim="loginForm.imgVerifyCode" style="width: 212px;" placeholder="验证码"
+                   @keyup.enter.native="onSubmit"
+          />
           <div class="verify-img" @click="getCode">
             <img :src="imgVerify" alt="">
           </div>
@@ -50,7 +55,7 @@
       <div class="f-no-account">没有账号？</div>
       <div class="f-text">您可联系商务专员开通账户，联系电话:134567889</div>
     </div>
-    <t-dialog :show.sync="showForget" title="提示" :disabled='true'>
+    <t-dialog :show.sync="showForget" title="提示" :disabled="true">
       <div style="text-align: center;color: #0D2B5E;font-size: 16px;">您可联系客服进行密码重置
         <br>
         联系电话:13645678554
@@ -61,12 +66,12 @@
 
 <script>
 import tigerLogo from '@/assets/tiger-logo@2x.png'
-import validate from "./validate";
-import {SET_USER_INFO} from "@/store/mutation-types";
-import {USER_TOKEN} from "@/config/storeKeys";
+import validate from './validate'
+import { SET_USER_INFO } from '@/store/mutation-types'
+import { USER_TOKEN } from '@/config/storeKeys'
 
 export default {
-  name: "TLogin",
+  name: 'TLogin',
   data() {
     return {
       tigerLogo,
@@ -76,7 +81,7 @@ export default {
         0: {
           name: '密码登录',
           value: '0'
-        },
+        }
         // 1: {
         //   name: '短信登陆',
         //   value: '1'
@@ -86,21 +91,21 @@ export default {
         imgVerifyCode: '',
         password: '',
         userName: '',
-        loginWay: "unpivc",
+        loginWay: 'unpivc',
         tenantId: 100001
       },
       loginRules: {
         userName: [
-          {required: true, message: '请输入用户名', trigger: ['blur', 'change']},
+          { required: true, message: '请输入用户名', trigger: ['blur', 'change'] }
           // {validator: this.userNameValid, trigger: ['blur', 'change']},
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: ['blur', 'change']},
+          { required: true, message: '请输入密码', trigger: ['blur', 'change'] }
           // {validator: this.passwordValid, trigger: ['blur', 'change']},
         ],
         imgVerifyCode: [
-          {required: true, message: '请输入验证码', trigger: ['blur', 'change']},
-          {min: 5, max: 5, message: '验证码长度5位', trigger: ['blur', 'change']},
+          { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
+          { min: 5, max: 5, message: '验证码长度5位', trigger: ['blur', 'change'] }
         ]
       },
       phoneForm: {
@@ -108,8 +113,8 @@ export default {
         verifyCode: ''
       },
       phoneRules: {
-        phone: [{validator: this.phoneValid, trigger: ['blur', 'change']}],
-        verifyCode: [{validator: this.verifyCodeValid, trigger: ['blur', 'change']}]
+        phone: [{ validator: this.phoneValid, trigger: ['blur', 'change'] }],
+        verifyCode: [{ validator: this.verifyCodeValid, trigger: ['blur', 'change'] }]
       },
       getCodeText: '',
       showCode: true,
@@ -161,14 +166,14 @@ export default {
     },
     getCode() {
       // 把请求结果转buffer
-      axios.get('/auth/sendImgVerifyCode', {responseType: 'arraybuffer'}).then(res => {
+      axios.get('/auth/sendImgVerifyCode', { responseType: 'arraybuffer' }).then(res => {
         if (res.status !== 200) {
           throw new Error(res.statusText)
         }
         // 二进制转base64
         this.imgVerify = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
       }).catch(e => {
-        this.$notify({title: '请求失败', type: 'error'})
+        this.$notify({ title: '请求失败', type: 'error' })
       })
     },
     getSendSMS() {
@@ -181,7 +186,7 @@ export default {
           throw new Error(res.data.message)
         }
       }).catch(e => {
-        this.$notify({title: e || '请求失败', type: 'error'})
+        this.$notify({ title: e || '请求失败', type: 'error' })
       })
     },
     onChangePhone(val) {
@@ -195,7 +200,7 @@ export default {
     },
     countDown() {
       this.showCode = false
-      let total = 60;
+      let total = 60
       this.getCodeText = `${total}s后再次发送`
       const timer = setInterval(() => {
         total -= 1
@@ -210,7 +215,7 @@ export default {
       this.$nextTick(() => {
         if (this.activeTab === this.tabMap[0].value) {
           this.$refs.loginForm.validate(valid => {
-            console.log(valid);
+            console.log(valid)
             if (valid) {
               if (!this.loading) {
                 this.loading = true
@@ -228,7 +233,7 @@ export default {
                   this.$router.push('/')
                 }).catch(e => {
                   this.loading = false
-                  this.$notify({title: e || '登陆失败', type: 'error'})
+                  this.$notify({ title: e || '登陆失败', type: 'error' })
                   this.getCode()
                 })
               }
@@ -240,7 +245,7 @@ export default {
               if (!this.loading) {
                 this.loading = true
                 axios.post('/login', this.phoneForm).then(res => {
-                  console.log(res);
+                  console.log(res)
                   this.loading = false
                 }).catch(e => {
                   this.loading = false
@@ -249,7 +254,6 @@ export default {
             }
           })
         }
-
       })
     }
   }
@@ -286,11 +290,10 @@ export default {
     }
     /deep/ .el-tabs__active-bar {
       height: 4px;
-      width: 32px!important;
+      width: 32px !important;
       left: 50%;
-      transform: translate(-50%)!important;
+      transform: translate(-50%) !important;
     }
-
 
   }
   .l-main {

@@ -21,11 +21,15 @@ import {
   routerAfterEachFunc
 } from '@/utils/interceptors/router'
 import Components from '@/components/index'
+import Filters from '@/filters/index'
+import Directives from '@/directives/index'
 
 Vue.config.productionTip = false
 Vue.use(Element, { size: 'medium' })
 Vue.use(VueVirtualScroller)
 Vue.use(Components)
+Vue.use(Filters)
+Vue.use(Directives)
 Vue.use(NProgress)
 Vue.use(Router)
 Vue.use(inject)

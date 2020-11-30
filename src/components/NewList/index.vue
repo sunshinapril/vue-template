@@ -1,22 +1,22 @@
 <template>
   <div class="container">
     <template v-if="list && list.length">
-      <div class="item" v-for="item in list">
-        <t-new-item :item="item" :key="item.id" :href="href" :keyWord="keyWord"></t-new-item>
+      <div v-for="item in list" :key="item.id" class="item">
+        <t-new-item :key="item.id" :item="item" :href="href" :key-word="keyWord" />
       </div>
     </template>
-    <div class="empty" v-else>
+    <div v-else class="empty">
       <i class="no-search">暂无数据</i>
     </div>
-    <t-pagination class="pagination-box" :options="pageOpt" @pagination-change="paginationChange"></t-pagination>
+    <t-pagination class="pagination-box" :options="pageOpt" @pagination-change="paginationChange" />
   </div>
 </template>
 
 <script>
-import TNewItem from "./TNewItem";
+import TNewItem from './TNewItem'
 
 export default {
-  name: "TNewsList",
+  name: 'TNewsList',
   components: {
     TNewItem
   },
@@ -40,14 +40,14 @@ export default {
       this.pageOpt.pageNo = 1
       this.list = []
       this.getData()
-    },
+    }
   },
   mounted() {
     this.getData()
   },
   methods: {
     paginationChange(data) {
-      this.pageOpt = data;
+      this.pageOpt = data
       this.getData()
     },
     getData() {
@@ -60,10 +60,10 @@ export default {
         if (currentSeq !== this.sequence) {
           return
         }
-        this.list = newData.data;
-        this.pageOpt.total = newData.total;
+        this.list = newData.data
+        this.pageOpt.total = newData.total
       }).catch(err => {
-        this.$notify({title: err.message || err || '请求失败', type: 'error'})
+        this.$notify({ title: err.message || err || '请求失败', type: 'error' })
       }).finally(() => {
         this.loading--
       })

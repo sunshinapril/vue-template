@@ -28,7 +28,7 @@
 import logo from '@/assets/logo@2x.png'
 
 export default {
-  name: "TFooter",
+  name: 'TFooter',
   data() {
     return {
       logo

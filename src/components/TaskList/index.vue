@@ -1,6 +1,5 @@
 <style lang="less" scoped>
 @import '~@/styles/colors.less';
-@import '~@/styles/mixins.less';
 
 .task-list-container {
   .task-wrapper {
@@ -87,18 +86,20 @@
 <template>
   <div class="task-list-container">
     <div class="task-wrapper" :class="{'is-zhedie': isZheDie}">
-      <task-block ref="taskBlock" v-for="(item, key) in data" :key="key" :data="item" @check="onCheck" :show-check="showCheck" @click-task="onClickTask" />
+      <task-block v-for="(item, key) in data" ref="taskBlock" :key="key" :data="item" :show-check="showCheck"
+                  @check="onCheck" @click-task="onClickTask"
+      />
       <div class="t-panel add-task-block" @click="onCreateTask">
         <div class="inner">
-          <img :src="icon.add" alt="" />
+          <img :src="icon.add" alt="">
           <span class="text">创建任务</span>
         </div>
       </div>
-      <div class="mask" v-if="isZheDie"></div>
+      <div v-if="isZheDie" class="mask" />
     </div>
-    <div class="zhankai-btn" @click="onToggle" v-if="data.length > 4">
+    <div v-if="data.length > 4" class="zhankai-btn" @click="onToggle">
       <div class="content">
-        {{isZheDie ? "展开全部" : "收起"}}
+        {{ isZheDie ? '展开全部' : '收起' }}
         <img :src="icon.zhankai" alt="" class="icon--zhankai" :class="{'icon--shouqi': !isZheDie}">
       </div>
     </div>
@@ -108,6 +109,7 @@
 import TaskBlock from './TaskBlock'
 import zhankai from '@/assets/butten_more_icon@2x.png'
 import add from '@/assets/task_add_icon@2x.png'
+
 export default {
   name: '',
   components: {
@@ -115,14 +117,17 @@ export default {
   },
   props: {
     data: {
-      default () {
+      type: Array,
+      default() {
         return []
       }
     },
     showCheck: {
+      type: Boolean,
       default: false
     },
     limit: {
+      type: Number,
       default: 0
     }
   },
@@ -136,7 +141,8 @@ export default {
       checkedList: []
     }
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     onToggle() {
       // this.isZheDie = false;
@@ -149,38 +155,39 @@ export default {
           // 重置当前checkbox的状态
           const index = this.data.findIndex(item => item.taskId === data.taskId)
           this.$nextTick(() => {
-            this.$refs.taskBlock[index].remove();
+            this.$refs.taskBlock[index].remove()
           })
           this.$notify({
-            title: `监控任务最多选择${this.limit}个`, type: 'warning'})
+            title: `监控任务最多选择${this.limit}个`, type: 'warning'
+          })
           return false
         }
-        this.checkedList.push(data);
+        this.checkedList.push(data)
       } else {
         this.checkedList = this.checkedList.filter(item => {
-          return item.taskId != data.taskId
+          return item.taskId !== data.taskId
         })
       }
       this.$emit('check', this.checkedList)
     },
     removeCheck(data) {
-      let index = -1;
+      let index = -1
       this.data.forEach((item, _index) => {
-        if (item.taskId == data.taskId) {
-          index = _index;
+        if (item.taskId === data.taskId) {
+          index = _index
         }
       })
-      this.$refs.taskBlock[index].remove();
+      this.$refs.taskBlock[index].remove()
     },
     removeAllCheck(data) {
       this.data.forEach((item, index) => {
         if (data.find(el => item.taskId === el.taskId)) {
-          this.$refs.taskBlock[index].remove();
+          this.$refs.taskBlock[index].remove()
         }
       })
     },
     onClickTask(data) {
-      this.$emit('click-task', data);
+      this.$emit('click-task', data)
     },
     onCreateTask() {
       this.$emit('click-task', {})

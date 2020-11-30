@@ -1,8 +1,7 @@
 <style lang="less" scoped>
 @import '~@/styles/colors.less';
-@import '~@/styles/mixins.less';
 .t-panel-container {
-  border: 1px solid #E9EEF8;  
+  border: 1px solid #E9EEF8;
   // margin-top: 20px;
   background: white;
   border-radius: 8px;
@@ -33,29 +32,28 @@
 <template>
   <div class="t-panel-container">
     <header class="header">
-      <span class="title">{{title}}</span>
-      <slot name="header"/>
+      <span class="title">{{ title }}</span>
+      <slot name="header" />
     </header>
     <div class="body">
-      <slot name="body"/>
+      <slot name="body" />
     </div>
   </div>
 </template>
 <script>
-  export default {
-    name: '',
-    props: {
-      title: {
-        default: ''
-      }
-    },
-    data () {
-      return {
-      }
-    },
-    mounted () {
-    },
-    methods: {
+export default {
+  name: '',
+  props: {
+    title: {
+      type: String,
+      default: ''
     }
-  }
+  },
+  data() {
+    return {}
+  },
+  mounted() {
+  },
+  methods: {}
+}
 </script>

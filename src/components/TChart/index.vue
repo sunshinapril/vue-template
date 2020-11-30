@@ -1,6 +1,5 @@
 <style lang="less" scoped>
 @import '~@/styles/colors.less';
-@import '~@/styles/mixins.less';
 
 .chart-container {
   height: 100%;
@@ -8,21 +7,24 @@
 }
 </style>
 <template>
-  <div class="chart-container" ref="chart">
-  </div>
+  <div ref="chart" class="chart-container" />
 </template>
 <script>
 import theme from './theme'
+
 export default {
-  name: '',
+  name: 'TChart',
   components: {},
   props: {
     options: {
-      default () {
+      default() {
         return {}
       },
       required: true
     }
+  },
+  data() {
+    return {}
   },
   watch: {
     options: {
@@ -32,18 +34,15 @@ export default {
       }
     }
   },
-  data() {
-    return {}
-  },
   mounted() {
-    this.draw(this.options);
+    this.draw(this.options)
   },
   methods: {
-    draw(options={}) {
+    draw(options = {}) {
       this.$nextTick(() => {
-        let chart = echarts.init(this.$refs.chart)
+        const chart = this.$echarts.init(this.$refs.chart)
         chart.setOption({
-         	...options,
+          ...options,
           theme
         })
       })
