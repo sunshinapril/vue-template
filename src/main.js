@@ -14,15 +14,18 @@ import '@/assets/theme/index.css'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import 'animate.css'
 import '@/styles/global.less'
+import '@/styles/colors.less'
 import routerMap from '@/router/index'
 import {
   routerBeforeEachFunc,
   routerAfterEachFunc
 } from '@/utils/interceptors/router'
+import Components from '@/components/index'
 
 Vue.config.productionTip = false
 Vue.use(Element, { size: 'medium' })
 Vue.use(VueVirtualScroller)
+Vue.use(Components)
 Vue.use(NProgress)
 Vue.use(Router)
 Vue.use(inject)
