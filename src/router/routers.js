@@ -1,7 +1,7 @@
 import testManage from '@/router/testManage'
 import tagManage from './tagManage'
 import Home from '@/views/Home'
-
+import HomeIc from '~/icon/ic-home.png'
 const menuRoutes = [
   {
     path: '/home',
@@ -9,7 +9,8 @@ const menuRoutes = [
     name: '首页',
     meta: {
       title: '首页',
-      isMenu: true
+      isMenu: true,
+      icon: HomeIc
     }
   },
   testManage,

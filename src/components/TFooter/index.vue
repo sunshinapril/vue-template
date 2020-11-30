@@ -39,11 +39,13 @@ export default {
 
 <style lang="less" scoped>
 .login-footer {
-  width: 100%;
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
+  min-height: 110px;
+  padding: 20px 0;
+  width: calc(100% - 220px);
+  position: fixed;
+  bottom: 0;
+  left: 219px;
+  background: rgb(41, 46, 51);
   .f-company {
     display: flex;
     flex-direction: row;

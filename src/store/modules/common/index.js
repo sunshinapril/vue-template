@@ -21,9 +21,8 @@ const actions = {
   },
   // 退出登陆
   async logout({ state }) {
-    const userID = state.userInfo.id
-    await this.$api.user.loginOut(userID)
-    this.$cache.remove(this.$cache.caches.TIGER_LOCAL_TOKEN)
+    // const userID = state.userInfo.id
+    // return await this.$api.user.loginOut(userID)
   }
 }
 

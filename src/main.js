@@ -8,13 +8,14 @@ import CacheControl from '@/utils/cache/CacheControl.js'
 import inject from '@/plugins/inject'
 import store from '@/store'
 
-import 'normalize.css'
 // import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/theme/index.css'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import 'normalize.css'
 import 'animate.css'
 import '@/styles/global.less'
 import '@/styles/colors.less'
+import '@/styles/reset.less'
 import routerMap from '@/router/index'
 import {
   routerBeforeEachFunc,
