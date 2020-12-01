@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import logo from '@/assets/logo@2x.png'
+import logo from '~/logo@2x.png'
 
 export default {
   name: 'TFooter',
@@ -41,11 +41,11 @@ export default {
 .login-footer {
   min-height: 110px;
   padding: 20px 0;
-  width: calc(100% - 220px);
+  width: 100%;
   position: fixed;
   bottom: 0;
-  left: 219px;
-  background: rgb(41, 46, 51);
+  left: 50%;
+  transform: translateX(-50%);
   .f-company {
     display: flex;
     flex-direction: row;

@@ -23,5 +23,18 @@ export default {
         userID: id
       }
     })
+  },
+  getCode: function() {
+    return request({
+      path: '/auth/sendImgVerifyCode',
+      type: 'get'
+    })
+  },
+  getSendSMS: function(data) {
+    return request({
+      path: '/auth/sendSMS',
+      type: 'post',
+      data
+    })
   }
 }

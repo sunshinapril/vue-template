@@ -6,7 +6,7 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/dataZoom'
 import api from '@/api'
-import MessageBox from '@/components/MessageBox'
+import MessageBox from '@/components/TMessageBox'
 
 export default {
   // eslint-disable-next-line no-unused-vars

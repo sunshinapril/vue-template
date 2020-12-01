@@ -34,21 +34,22 @@
           </div>
         </el-form-item>
       </el-form>
-      <!--<el-form
+      <el-form
         v-show="activeTab === tabMap[1].value"
         ref="phoneForm"
         class="login-form"
         :rules="phoneRules"
-        :model="phoneForm">
+        :model="phoneForm"
+      >
         <el-form-item prop="phone">
-          <t-input v-model.trim="phoneForm.phone" placeholder="请输入手机号" @input="onChangePhone"></t-input>
+          <t-input v-model.trim="phoneForm.phone" placeholder="请输入手机号" @input="onChangePhone" />
         </el-form-item>
         <el-form-item prop="verifyCode">
-          <t-input v-model.trim="phoneForm.verifyCode" placeholder="验证码"></t-input>
+          <t-input v-model.trim="phoneForm.verifyCode" placeholder="验证码" />
           <text-button v-if="showCode" :disabled="disabledSendSMS" class="p-forget" @click="getSendSMS">获取验证码</text-button>
-          <text-button v-else class="p-forget">{{getCodeText}}</text-button>
+          <text-button v-else class="p-forget">{{ getCodeText }}</text-button>
         </el-form-item>
-      </el-form>-->
+      </el-form>
     </div>
     <div class="l-footer">
       <t-button class="l-login-button" @click="onSubmit">登录</t-button>
@@ -65,10 +66,9 @@
 </template>
 
 <script>
-import tigerLogo from '@/assets/tiger-logo@2x.png'
+import tigerLogo from '~/tiger-logo@2x.png'
 import validate from './validate'
-import { SET_USER_INFO } from '@/store/mutation-types'
-import { USER_TOKEN } from '@/config/storeKeys'
+// import { SET_USER_INFO } from '@/store/mutation-types'
 
 export default {
   name: 'TLogin',
@@ -81,11 +81,11 @@ export default {
         0: {
           name: '密码登录',
           value: '0'
+        },
+        1: {
+          name: '短信登陆',
+          value: '1'
         }
-        // 1: {
-        //   name: '短信登陆',
-        //   value: '1'
-        // }
       },
       loginForm: {
         imgVerifyCode: '',
@@ -96,12 +96,12 @@ export default {
       },
       loginRules: {
         userName: [
-          { required: true, message: '请输入用户名', trigger: ['blur', 'change'] }
-          // {validator: this.userNameValid, trigger: ['blur', 'change']},
+          { required: true, message: '请输入用户名', trigger: ['blur', 'change'] },
+          { validator: this.userNameValid, trigger: ['blur', 'change'] }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: ['blur', 'change'] }
-          // {validator: this.passwordValid, trigger: ['blur', 'change']},
+          { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
+          { validator: this.passwordValid, trigger: ['blur', 'change'] }
         ],
         imgVerifyCode: [
           { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
@@ -166,28 +166,28 @@ export default {
     },
     getCode() {
       // 把请求结果转buffer
-      axios.get('/auth/sendImgVerifyCode', { responseType: 'arraybuffer' }).then(res => {
-        if (res.status !== 200) {
-          throw new Error(res.statusText)
-        }
-        // 二进制转base64
-        this.imgVerify = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-      }).catch(e => {
-        this.$notify({ title: '请求失败', type: 'error' })
-      })
+      // axios.get('/auth/sendImgVerifyCode', { responseType: 'arraybuffer' }).then(res => {
+      //   if (res.status !== 200) {
+      //     throw new Error(res.statusText)
+      //   }
+      //   // 二进制转base64
+      //   this.imgVerify = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+      // }).catch(e => {
+      //   this.$notify({ title: '请求失败', type: 'error' })
+      // })
     },
     getSendSMS() {
       this.countDown()
-      axios.get('/getCode').then(res => {
-        if (res.status !== 200) {
-          throw new Error(res.statusText)
-        }
-        if (res.data.code !== '200') {
-          throw new Error(res.data.message)
-        }
-      }).catch(e => {
-        this.$notify({ title: e || '请求失败', type: 'error' })
-      })
+      // axios.get('/getCode').then(res => {
+      //   if (res.status !== 200) {
+      //     throw new Error(res.statusText)
+      //   }
+      //   if (res.data.code !== '200') {
+      //     throw new Error(res.data.message)
+      //   }
+      // }).catch(e => {
+      //   this.$notify({ title: e || '请求失败', type: 'error' })
+      // })
     },
     onChangePhone(val) {
       this.$refs.phoneForm.validateField('phone', (error) => {
@@ -219,23 +219,23 @@ export default {
             if (valid) {
               if (!this.loading) {
                 this.loading = true
-                axios.post('/login', this.loginForm).then(res => {
-                  this.loading = false
-                  if (res.status !== 200) {
-                    throw new Error(res.statusText)
-                  }
-                  if (res.data.code !== '200') {
-                    throw new Error(res.data.message)
-                  }
-                  const data = res.data.data
-                  localStorage.setItem(USER_TOKEN, data.data.token)
-                  this.$store.commit(`user/${SET_USER_INFO}`, data.data)
-                  this.$router.push('/')
-                }).catch(e => {
-                  this.loading = false
-                  this.$notify({ title: e || '登陆失败', type: 'error' })
-                  this.getCode()
-                })
+                // axios.post('/login', this.loginForm).then(res => {
+                //   this.loading = false
+                //   if (res.status !== 200) {
+                //     throw new Error(res.statusText)
+                //   }
+                //   if (res.data.code !== '200') {
+                //     throw new Error(res.data.message)
+                //   }
+                //   const data = res.data.data
+                //   localStorage.setItem(USER_TOKEN, data.data.token)
+                //   this.$store.commit(`user/${SET_USER_INFO}`, data.data)
+                //   this.$router.push('/')
+                // }).catch(e => {
+                //   this.loading = false
+                //   this.$notify({ title: e || '登陆失败', type: 'error' })
+                //   this.getCode()
+                // })
               }
             }
           })
@@ -244,12 +244,12 @@ export default {
             if (valid) {
               if (!this.loading) {
                 this.loading = true
-                axios.post('/login', this.phoneForm).then(res => {
-                  console.log(res)
-                  this.loading = false
-                }).catch(e => {
-                  this.loading = false
-                })
+                // axios.post('/login', this.phoneForm).then(res => {
+                //   console.log(res)
+                //   this.loading = false
+                // }).catch(e => {
+                //   this.loading = false
+                // })
               }
             }
           })
@@ -291,8 +291,7 @@ export default {
     /deep/ .el-tabs__active-bar {
       height: 4px;
       width: 32px !important;
-      left: 50%;
-      transform: translate(-50%) !important;
+      left: 10%;
     }
 
   }

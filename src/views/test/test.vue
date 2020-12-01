@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import TDatePicker from '@/components/date-picker'
+import TDatePicker from '@/components/TDatePicker'
 export default {
   name: 'TestVue',
   components: {

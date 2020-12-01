@@ -49,7 +49,7 @@ export default {
   margin: 37px 39px 14px 17px;
   height: 58px;
   width: auto;
-  background: url("~@/assets/logo.png") center center no-repeat;
+  background: url("~@/assets/images/logo.png") center center no-repeat;
   background-size: contain;
   display: block;
 }
