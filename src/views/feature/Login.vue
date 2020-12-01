@@ -47,7 +47,7 @@
     </div>
     <div class="welcome-text">
       <p class="w-title">欢迎您 :</p>
-      <p class="w-text">登录虎博舆情监控平台，先人一步，挖掘舆情价值</p>
+      <p class="w-text">登录虎博模版平台，先人一步，快速开发</p>
     </div>
     <t-login />
     <t-footer />

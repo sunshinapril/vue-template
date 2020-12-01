@@ -3,22 +3,22 @@ import request from '@/utils/request'
 export default {
   login: function(data) {
     return request({
-      path: '/login',
-      type: 'post',
+      url: '/login',
+      method: 'post',
       data: data
     })
   },
   getUserInfo: function(params) {
     return request({
-      path: '/user/info',
-      type: 'post',
+      url: '/user/info',
+      method: 'post',
       params
     })
   },
   loginOut: function(id) {
     return request({
-      path: '/login/out',
-      type: 'post',
+      url: '/login/out',
+      method: 'post',
       data: {
         userID: id
       }
@@ -26,14 +26,16 @@ export default {
   },
   getCode: function() {
     return request({
-      path: '/auth/sendImgVerifyCode',
-      type: 'get'
+      url: '/auth/sendImgVerifyCode',
+      method: 'get',
+      responseType: 'arraybuffer',
+      useRowData: true
     })
   },
   getSendSMS: function(data) {
     return request({
-      path: '/auth/sendSMS',
-      type: 'post',
+      url: '/auth/sendSMS',
+      method: 'post',
       data
     })
   }

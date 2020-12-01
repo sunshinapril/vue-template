@@ -68,7 +68,7 @@
 <script>
 import tigerLogo from '~/tiger-logo@2x.png'
 import validate from './validate'
-// import { SET_USER_INFO } from '@/store/mutation-types'
+import { SET_USER_INFO } from '@/store/mutation-types'
 
 export default {
   name: 'TLogin',
@@ -100,8 +100,8 @@ export default {
           { validator: this.userNameValid, trigger: ['blur', 'change'] }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
-          { validator: this.passwordValid, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入密码', trigger: ['blur', 'change'] }
+          // { validator: this.passwordValid, trigger: ['blur', 'change'] }
         ],
         imgVerifyCode: [
           { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
@@ -166,15 +166,12 @@ export default {
     },
     getCode() {
       // 把请求结果转buffer
-      // axios.get('/auth/sendImgVerifyCode', { responseType: 'arraybuffer' }).then(res => {
-      //   if (res.status !== 200) {
-      //     throw new Error(res.statusText)
-      //   }
-      //   // 二进制转base64
-      //   this.imgVerify = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-      // }).catch(e => {
-      //   this.$notify({ title: '请求失败', type: 'error' })
-      // })
+      this.$api.user.getCode().then(res => {
+        // 二进制转base64
+        this.imgVerify = 'data:image/png;base64,' + btoa(new Uint8Array(res).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+      }).catch(e => {
+        this.$notify({ title: '请求失败', type: 'error' })
+      })
     },
     getSendSMS() {
       this.countDown()
@@ -215,27 +212,20 @@ export default {
       this.$nextTick(() => {
         if (this.activeTab === this.tabMap[0].value) {
           this.$refs.loginForm.validate(valid => {
-            console.log(valid)
             if (valid) {
               if (!this.loading) {
                 this.loading = true
-                // axios.post('/login', this.loginForm).then(res => {
-                //   this.loading = false
-                //   if (res.status !== 200) {
-                //     throw new Error(res.statusText)
-                //   }
-                //   if (res.data.code !== '200') {
-                //     throw new Error(res.data.message)
-                //   }
-                //   const data = res.data.data
-                //   localStorage.setItem(USER_TOKEN, data.data.token)
-                //   this.$store.commit(`user/${SET_USER_INFO}`, data.data)
-                //   this.$router.push('/')
-                // }).catch(e => {
-                //   this.loading = false
-                //   this.$notify({ title: e || '登陆失败', type: 'error' })
-                //   this.getCode()
-                // })
+                this.$api.user.login(this.loginForm).then(res => {
+                  this.loading = false
+                  const data = res.data.data
+                  this.$cache.set(this.$cache.caches.TIGER_LOCAL_TOKEN, data.token)
+                  this.$store.commit(`common/${SET_USER_INFO}`, data)
+                  this.$router.push('/')
+                }).catch(e => {
+                  this.loading = false
+                  this.$notify({ title: e || '登陆失败', type: 'error' })
+                  this.getCode()
+                })
               }
             }
           })

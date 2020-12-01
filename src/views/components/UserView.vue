@@ -1,12 +1,17 @@
 <template>
   <div class="user-view-box">
-    <span class="user-name">admin</span>
+    <span class="user-name">{{ userInfo.userName }}</span>
     <span class="logout" @click="logout">退出</span>
   </div>
 </template>
 <script>
 export default {
   name: 'UserView',
+  computed: {
+    userInfo() {
+      return this.$store?.state?.common?.userInfo ?? {}
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch('common/logout').then(() => {

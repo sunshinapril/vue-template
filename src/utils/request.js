@@ -1,12 +1,13 @@
 import axios from 'axios'
 import q from 'q'
 import { Message } from 'element-ui'
+import CacheControl from '@/utils/cache/CacheControl'
 
 function request(config) {
   const _config = {
-    baseURL: process.env.VUE_APP_ENV,
+    baseURL: process.env.VUE_APP_API_HOST,
     headers: {
-      token: this.$cache.get(this.$cache.caches.TIGER_LOCAL_TOKEN),
+      token: CacheControl.get(CacheControl.caches.TIGER_LOCAL_TOKEN),
       'Content-Type': 'application/json'
     },
     ...config
@@ -22,12 +23,14 @@ function request(config) {
           if (!res || typeof res === 'string') {
             throw new Error('服务端错误')
           }
-
+          if (_config.useRowData) {
+            return res
+          }
           switch (res.code) {
-            case 200:
+            case '200':
               return res
-            case 103: // 登录态失效
-              this.$cache.remove(this.$cache.caches.TIGER_LOCAL_TOKEN)
+            case '103': // 登录态失效
+              CacheControl.remove(CacheControl.caches.TIGER_LOCAL_TOKEN)
               break
           }
 
