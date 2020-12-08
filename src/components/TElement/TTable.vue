@@ -54,7 +54,7 @@ export default {
     },
     data: {
       type: Array,
-      default: () => []
+      default: () => null
     },
     total: {
       type: Number,

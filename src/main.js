@@ -8,7 +8,7 @@ import CacheControl from '@/utils/cache/CacheControl.js'
 import inject from '@/plugins/inject'
 import store from '@/store'
 
-// import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/theme/index.css'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import 'normalize.css'

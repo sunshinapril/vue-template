@@ -109,12 +109,15 @@ export default {
       min-width: 23px;
       padding: 0;
       margin: 0 3px 0;
-      &.number {
+      &.number, &.more {
         //width: 23px;
         height: 23px;
         line-height: 23px;
         border-radius: 2px;
         border: 1px solid #E9EEF8;
+        &::before {
+          line-height: 23px;
+        }
       }
       &.active {
         color: #ffffff;

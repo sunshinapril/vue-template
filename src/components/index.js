@@ -13,6 +13,7 @@ import TTag from './TElement/TTag'
 import TDatePicker from './TElement/TDatePicker'
 import TAutoComplete from './TElement/TAutoComplete'
 import TCascader from './TElement/TCascader'
+import TSlider from './TElement/TSlider'
 
 export default {
   install(Vue) {
@@ -31,5 +32,6 @@ export default {
     Vue.component(TDatePicker.name, TDatePicker)
     Vue.component(TAutoComplete.name, TAutoComplete)
     Vue.component(TCascader.name, TCascader)
+    Vue.component(TSlider.name, TSlider)
   }
 }

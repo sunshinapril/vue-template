@@ -26,7 +26,7 @@ export default {
       path: 'test',
       component: Test,
       meta: {
-        title: 'title',
+        title: 'Button',
         isMenu: true
       }
     }
