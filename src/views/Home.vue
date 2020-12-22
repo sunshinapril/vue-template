@@ -1,8 +1,6 @@
 <template>
   <div class="home-box">
-    <div class="form-box">
-      <t-slider v-model="value" />
-    </div>
+    <div class="form-box" />
   </div>
 </template>
 

@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import createLogger from 'vuex/dist/logger'
-import common from './modules/common'
+import user from './modules/user'
+import permission from './modules/permission'
+import getters from './getters'
 
 Vue.use(Vuex)
 
@@ -17,19 +19,7 @@ const plugins = [
     key: storeKey,
     reducer(vuexState) {
       return {
-        common: vuexState.common
-      }
-    }
-  }),
-  createPersistedState({
-    storage: window.localStorage,
-    key: storeKey,
-    reducer(vuexState) {
-      return {
-        // demo
-        demo: {
-          demoBindCache: vuexState.common.userInfo
-        }
+        // user: vuexState.user
       }
     }
   })
@@ -39,8 +29,10 @@ debug ? plugins.push(createLogger()) : null
 
 export default new Vuex.Store({
   modules: {
-    common
+    user,
+    permission
   },
+  getters,
   plugins,
   strict: debug
 })

@@ -8,11 +8,11 @@ export default {
       data: data
     })
   },
-  getUserInfo: function(params) {
+  getUserInfo: function(data) {
     return request({
-      url: '/user/info',
+      url: '/tenant/user/manager/queryUserInfo',
       method: 'post',
-      params
+      data
     })
   },
   loginOut: function(id) {

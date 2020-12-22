@@ -7,7 +7,7 @@ function request(config) {
   const _config = {
     baseURL: process.env.VUE_APP_API_HOST,
     headers: {
-      token: CacheControl.get(CacheControl.caches.TIGER_LOCAL_TOKEN),
+      'Authorization': CacheControl.get(CacheControl.caches.TIGER_LOCAL_TOKEN),
       'Content-Type': 'application/json'
     },
     ...config
@@ -29,8 +29,9 @@ function request(config) {
           switch (res.code) {
             case '200':
               return res
-            case '103': // 登录态失效
+            case '401': // 登录态失效
               CacheControl.remove(CacheControl.caches.TIGER_LOCAL_TOKEN)
+              location.href = '#/login'
               break
           }
 

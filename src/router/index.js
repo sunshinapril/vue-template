@@ -1,50 +1,66 @@
-import Router from 'vue-router'
-// 防止当前位置导航重复点击，导致vue-router更新以后的报错
-const originalPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
-import menuRoutes from './routers'
+import router from './routers'
+import store from '@/store'
+import { buildMenus } from '@/api/menu'
+import { filterAsyncRouter } from '@/store/modules/permission'
+import { getToken } from '@/utils/auth'
+import { setPageTitle } from '@/utils'
 
-const Layout = () => import('@/views/Layout.vue')
+const whiteList = ['/login']// no redirect whitelist
 
-export default new Router({
-  mode: 'hash',
-  linkActiveClass: 'is-active',
-  scrollBehavior: () => ({ y: 0 }),
-  routes: [
-    {
-      path: '/login',
-      component: () => import('@/views/feature/Login.vue'),
-      meta: {
-        label: '登录',
-        uncheck: true
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    setPageTitle(to.meta.title)
+  }
+  // 如果有外链则跳转外链
+  if (to.meta && to.meta.outLink) {
+    window.open(to.meta.outLink(), to.meta.target ? to.meta.target : '_self')
+    return false
+  }
+  if (getToken()) {
+    // 已登录且要跳转的页面是登录页
+    if (to.path === '/login') {
+      next({ path: '/' })
+    } else {
+      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
+        store.dispatch('user/GetInfo').then(res => { // 拉取user_info
+          // 动态路由，拉取菜单
+          loadMenus(next, to)
+        }).catch((err) => {
+          console.log(err)
+          store.dispatch('user/LogOut').then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
+          })
+        })
+        // 登录时未拉取 菜单，在此处拉取
+      } else if (store.getters.loadMenus) {
+        // 修改成false，防止死循环
+        store.dispatch('user/updateLoadMenus').then(res => {})
+        loadMenus(next, to)
+      } else {
+        next()
       }
-    },
-    {
-      path: '/',
-      redirect: '/home',
-      component: Layout,
-      children: [...menuRoutes]
-    },
-    {
-      path: '/404',
-      component: () => import('@/views/feature/404.vue'),
-      meta: {
-        label: '404'
-      }
-    },
-    {
-      path: '/forbidden',
-      component: () => import('@/views/feature/Forbidden.vue'),
-      meta: {
-        label: '没有权限'
-      }
-    },
-    {
-      path: '*',
-      redirect: '/404',
-      meta: {}
     }
-  ]
+  } else {
+    /* has no token*/
+    if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
+      next()
+    } else {
+      next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
+    }
+  }
+})
+
+export const loadMenus = (next, to) => {
+  buildMenus().then(res => {
+    const data = res.data
+    const asyncRouter = filterAsyncRouter(data)
+    asyncRouter.push({ path: '*', redirect: '/404', hidden: true })
+    store.dispatch('permission/GenerateRoutes', asyncRouter).then(() => { // 存储路由
+      router.addRoutes(asyncRouter) // 动态添加可访问路由表
+      next({ ...to, replace: true })
+    })
+  })
+}
+
+router.afterEach(() => {
 })

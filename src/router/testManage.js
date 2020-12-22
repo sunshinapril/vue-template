@@ -1,19 +1,13 @@
-import Test from '@/views/test/test'
 import TestIc from '~/icon/ic-test.png'
-const Outlet = {
-  render() {
-    return <router-view />
-  }
-}
 export default {
   name: '测试',
   path: '/test',
-  component: Outlet,
+  component: 'Layout',
   children: [
     {
       name: 'demo',
       path: 'demo',
-      component: Outlet,
+      component: 'Outlet',
       meta: {
         isMenu: true,
         title: '外链',
@@ -24,7 +18,7 @@ export default {
     {
       name: 'test',
       path: 'test',
-      component: Test,
+      component: 'test/test',
       meta: {
         title: 'Button',
         isMenu: true

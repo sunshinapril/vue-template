@@ -68,7 +68,6 @@
 <script>
 import tigerLogo from '~/tiger-logo@2x.png'
 import validate from './validate'
-import { SET_USER_INFO } from '@/store/mutation-types'
 
 export default {
   name: 'TLogin',
@@ -215,15 +214,15 @@ export default {
             if (valid) {
               if (!this.loading) {
                 this.loading = true
-                this.$api.user.login(this.loginForm).then(res => {
+                this.$store.dispatch('user/Login', this.loginForm).then(res => {
+                  console.log(111111)
                   this.loading = false
-                  const data = res.data.data
-                  this.$cache.set(this.$cache.caches.TIGER_LOCAL_TOKEN, data.token)
-                  this.$store.commit(`common/${SET_USER_INFO}`, data)
-                  this.$router.push('/')
+                  this.$router.push({
+                    path: '/home'
+                  })
                 }).catch(e => {
+                  console.log(22222)
                   this.loading = false
-                  this.$notify({ title: e || '登陆失败', type: 'error' })
                   this.getCode()
                 })
               }

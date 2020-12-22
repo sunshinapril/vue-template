@@ -1,32 +1,29 @@
 <template>
-  <div>
-    <template v-for="(item, index) in routes">
-      <el-menu-item
-        v-if="(!item.children || item.length === 0) && item.meta.isMenu"
-        :key="index"
-        :index="item.path"
-        class="menu-bottom"
-      >
+  <div v-if="!item.hidden">
+    <el-menu-item
+      v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !item.alwaysShow"
+      :index="onlyOneChild.path"
+      class="menu-bottom"
+    >
+      <i v-if="onlyOneChild.meta && onlyOneChild.meta.icon" class="ic-menu">
+        <img :src="onlyOneChild.meta.icon">
+      </i>
+      {{ onlyOneChild.meta.title }}
+    </el-menu-item>
+
+    <el-submenu v-if="item.children && item.children.length > 1" :index="item.path" popper-append-to-body>
+      <template slot="title">
         <i v-if="item.meta.icon" class="ic-menu">
           <img :src="item.meta.icon">
         </i>
-        {{ item.meta.title }}
-      </el-menu-item>
-
-      <el-submenu v-if="item.children && item.children.length && item.meta.isMenu" :key="index" :index="item.path" popper-append-to-body>
-        <template slot="title">
-          <i v-if="item.meta.icon" class="ic-menu">
-            <img :src="item.meta.icon">
-          </i>
-          <span>{{ item.meta.title }}</span>
-        </template>
-        <template v-for="child in item.children">
-          <el-menu-item v-if="child.meta.isMenu" :key="child.path" :index="item.path + '/' + child.path">
-            {{ child.meta.title }}
-          </el-menu-item>
-        </template>
-      </el-submenu>
-    </template>
+        <span>{{ item.meta.title }}</span>
+      </template>
+      <template v-for="child in item.children">
+        <el-menu-item v-if="!child.hidden" :key="child.path" :index="item.path + '/' + child.path">
+          {{ child.meta.title }}
+        </el-menu-item>
+      </template>
+    </el-submenu>
   </div>
 </template>
 
@@ -34,9 +31,39 @@
 export default {
   name: 'SidebarItem',
   props: {
-    routes: {
-      type: Array,
-      default: () => []
+    item: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      onlyOneChild: null
+    }
+  },
+  methods: {
+    hasOneShowingChild(children = [], parent) {
+      const showingChildren = children.filter(item => {
+        if (item.hidden) {
+          return false
+        } else {
+          // Temp set(will be used if only has one showing child)
+          this.onlyOneChild = item
+          return true
+        }
+      })
+      // When there is only one child router, the child router is displayed by default
+      if (showingChildren.length === 1) {
+        return true
+      }
+
+      // Show parent if there are no child router to display
+      if (showingChildren.length === 0) {
+        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        return true
+      }
+
+      return false
     }
   }
 }

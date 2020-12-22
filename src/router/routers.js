@@ -1,40 +1,69 @@
-import testManage from '@/router/testManage'
-import tagManage from './tagManage'
-import Home from '@/views/Home'
+import Router from 'vue-router'
+// 防止当前位置导航重复点击，导致vue-router更新以后的报错
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 import HomeIc from '~/icon/ic-home.png'
-const menuRoutes = [
+
+const Layout = () => import('@/views/Layout.vue')
+
+export const constantRouterMap = [
   {
-    path: '/home',
-    component: Home,
-    name: '首页',
+    path: '/login',
+    hidden: true,
+    component: () => import('@/views/feature/Login.vue'),
     meta: {
-      title: '首页',
-      isMenu: true,
-      icon: HomeIc
+      label: '登录',
+      uncheck: true
     }
   },
-  testManage,
-  tagManage
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path*',
+        component: () => import('@/views/feature/redirect')
+      }
+    ]
+  },
+  {
+    path: '/',
+    redirect: '/home',
+    component: Layout,
+    children: [{
+      path: '/home',
+      component: () => import('@/views/Home'),
+      name: 'Home',
+      meta: {
+        title: '首页',
+        icon: HomeIc
+      }
+    }]
+  },
+  {
+    path: '/404',
+    hidden: true,
+    component: () => import('@/views/feature/404.vue'),
+    meta: {
+      label: '404'
+    }
+  },
+  {
+    path: '/forbidden',
+    hidden: true,
+    component: () => import('@/views/feature/Forbidden.vue'),
+    meta: {
+      label: '没有权限'
+    }
+  }
 ]
 
-export default menuRoutes
-
-// todo 权限过滤
-/* export function filterMenuRoute(perm = [], routes = menuRoutes) {
-    // 菜单路由
-    const filterMenuRoute = routes => {
-        let menuRoutes = routes.filter(
-            route => route.meta && route.meta.isMenu
-        );
-        menuRoutes.forEach(route => {
-            if (route.children && route.children.length > 0) {
-                route.children = filterMenuRoute(route.children);
-                if (route.children.length === 0) {
-                    delete route.children;
-                }
-            }
-        });
-        return menuRoutes;
-    };
-    return filterMenuRoute(routes);
-}*/
+export default new Router({
+  mode: 'hash',
+  linkActiveClass: 'is-active',
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+})

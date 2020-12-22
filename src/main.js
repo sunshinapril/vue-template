@@ -16,28 +16,24 @@ import 'animate.css'
 import '@/styles/global.less'
 import '@/styles/colors.less'
 import '@/styles/reset.less'
-import routerMap from '@/router/index'
-import {
-  routerBeforeEachFunc,
-  routerAfterEachFunc
-} from '@/utils/interceptors/router'
 import Components from '@/components/index'
 import Filters from '@/filters/index'
 import Directives from '@/directives/index'
-
+import router from '@/router/routers'
+import './router/index'
 Vue.config.productionTip = false
 Vue.use(Element, { size: 'medium' })
 Vue.use(VueVirtualScroller)
 Vue.use(Components)
 Vue.use(Filters)
 Vue.use(Directives)
-Vue.use(NProgress)
+Vue.use(NProgress, {
+  showSpinner: false,
+  http: false
+})
 Vue.use(Router)
 Vue.use(inject)
 CacheControl.init()
-const router = routerMap
-router.beforeEach(routerBeforeEachFunc)
-router.afterEach(routerAfterEachFunc)
 const nprogress = new NProgress()
 
 new Vue({

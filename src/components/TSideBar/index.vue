@@ -9,12 +9,11 @@
     :router="true"
   >
     <i class="logo" />
-    <sidebarItem :routes="routes" />
+    <sidebar-item v-for="route in routes" :key="route.path" :item="route" />
   </el-menu>
 </template>
 
 <script>
-import menuRoutes from '@/router/routers'
 import SidebarItem from '@/components/TSideBar/SidebarItem'
 export default {
   name: 'Index',
@@ -23,7 +22,7 @@ export default {
   },
   computed: {
     routes() {
-      return menuRoutes
+      return this.$store.getters.permission_routers
     },
     defaultActive() {
       const route = this.$route

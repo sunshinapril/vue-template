@@ -9,13 +9,12 @@ export default {
   name: 'UserView',
   computed: {
     userInfo() {
-      return this.$store?.state?.common?.userInfo ?? {}
+      return this.$store?.state?.user?.user ?? {}
     }
   },
   methods: {
     logout() {
-      this.$store.dispatch('common/logout').then(() => {
-        this.$cache.remove(this.$cache.caches.TIGER_LOCAL_TOKEN)
+      this.$store.dispatch('user/LogOut').then(res => {
         this.$router.push('/login')
       })
     }

@@ -42,6 +42,7 @@
         label="地址"
       />
     </t-table>
+    <t-slider v-model="value" />
   </div>
 </template>
 
