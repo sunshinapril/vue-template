@@ -147,8 +147,7 @@ export default {
   color: #0D2B5E;
 }
 /deep/ .el-dialog__body {
-  padding: 20px;
-  padding-bottom: 0;
+  padding: 20px 0 0;
   .el-form-item {
     margin-bottom: 16px;
   }

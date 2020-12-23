@@ -4,8 +4,8 @@
   /* 设置input 和 textarea 的边框, 聚焦效果, 字体大小, 颜色等 */
   /deep/ .el-input__inner,
   /deep/ .el-textarea__inner {
-    height: 40px;
-    line-height: 40px;
+    height: 36px;
+    line-height: 36px;
     border-color: @borderColor;
     &:focus {
       border-color: @focusColor;

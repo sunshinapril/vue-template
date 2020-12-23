@@ -41,9 +41,10 @@ export default {
     .g-router-view {
       height: 100%;
       padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 24px;
+      border-radius: 18px;
       background: #f7fafd;
+      overflow: hidden;
+      overflow-y: auto;
     }
   }
 }

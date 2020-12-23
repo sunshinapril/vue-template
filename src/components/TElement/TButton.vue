@@ -19,7 +19,7 @@ export default {
 @import '~@/styles/colors.less';
 .border-radius {
   border-radius: 6px;
-  padding: 12px 26px;
+  padding: 10px 24px;
 }
 .danger-text {
   background: @dangerNormalColor;

@@ -2,7 +2,6 @@ import TextButton from './TElement/TextButton'
 import TButton from './TElement/TButton'
 import TPagination from './TElement/TPagination'
 import TTable from './TElement/TTable'
-import THeader from './TElement/THeader'
 import TDialog from './TElement/TDialog'
 import TInput from './TElement/TInput'
 import TSelect from './TElement/TSelect'
@@ -14,6 +13,8 @@ import TDatePicker from './TElement/TDatePicker'
 import TAutoComplete from './TElement/TAutoComplete'
 import TCascader from './TElement/TCascader'
 import TSlider from './TElement/TSlider'
+import THeader from './THeader'
+import TBody from './TBody'
 
 export default {
   install(Vue) {
@@ -21,7 +22,6 @@ export default {
     Vue.component(TButton.name, TButton)
     Vue.component(TPagination.name, TPagination)
     Vue.component(TTable.name, TTable)
-    Vue.component(THeader.name, THeader)
     Vue.component(TDialog.name, TDialog)
     Vue.component(TInput.name, TInput)
     Vue.component(TSelect.name, TSelect)
@@ -33,5 +33,7 @@ export default {
     Vue.component(TAutoComplete.name, TAutoComplete)
     Vue.component(TCascader.name, TCascader)
     Vue.component(TSlider.name, TSlider)
+    Vue.component(THeader.name, THeader)
+    Vue.component(TBody.name, TBody)
   }
 }
