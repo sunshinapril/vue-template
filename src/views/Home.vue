@@ -1,6 +1,8 @@
 <template>
   <div class="home-box">
-    <div class="form-box" />
+    <div class="form-box">
+      <t-input v-model="queryParams.name" style="width: 220px;" placeholder="请输入查询名称" />
+    </div>
   </div>
 </template>
 
@@ -9,7 +11,9 @@ export default {
   name: 'Home',
   data() {
     return {
-      value: 0.6
+      queryParams: {
+        name: ''
+      }
     }
   }
 }
