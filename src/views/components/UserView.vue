@@ -6,7 +6,7 @@
         {{ userInfo.userName }}
       </span>
       <el-dropdown-menu slot="dropdown">
-        <span style="display:block;" @click="showResetPassword = true">
+        <span style="display:block;" @click="openResetPassword">
           <el-dropdown-item>
             修改密码
           </el-dropdown-item>
@@ -18,21 +18,15 @@
         </span>
       </el-dropdown-menu>
     </el-dropdown>
-    <t-reset-password :show.sync="showResetPassword" />
   </div>
 </template>
 <script>
 import Avatar from '@/assets/images/avatar.png'
-import TResetPassword from '@/components/TResetPassword'
 export default {
   name: 'UserView',
-  components: {
-    TResetPassword
-  },
   data() {
     return {
-      Avatar,
-      showResetPassword: false
+      Avatar
     }
   },
   computed: {
@@ -45,8 +39,10 @@ export default {
       this.$store.dispatch('user/LogOut').then(res => {
         this.$router.push('/login')
       })
+    },
+    openResetPassword() {
+      this.$resetPassword()
     }
-
   }
 }
 </script>

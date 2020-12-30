@@ -39,7 +39,7 @@ const actions = {
       commit(SET_LOAD_MENUS, true)
       return data
     } catch (e) {
-      console.log(e)
+      return Promise.reject(e)
     }
   },
   // 获取用户信息

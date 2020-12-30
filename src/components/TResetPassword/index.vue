@@ -3,10 +3,10 @@
     <div class="reset-wrapper">
       <div class="l-title">
         <img :src="tigerLogo" alt="">
-        <i class="close" @click="close" />
+        <i class="close" @click="handleAction('cancel')" />
       </div>
       <div v-if="!isResetSuccess" class="l-main">
-        <div class="sub-title">重设密码</div>
+        <div class="sub-title">{{ subTitle }}</div>
         <el-form
           ref="resetForm"
           class="reset-form"
@@ -49,13 +49,6 @@ import successUrl from '@/assets/images/done_pic@2x.png'
 
 export default {
   name: 'Index',
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-      required: true
-    }
-  },
   data() {
     return {
       tigerLogo,
@@ -79,20 +72,11 @@ export default {
       },
       visible: false,
       loading: false,
-      isResetSuccess: false
-    }
-  },
-  watch: {
-    show(newV, oldV) {
-      this.visible = newV
-      if (newV) {
-        this.$nextTick(() => {
-          this.$refs.resetForm.resetFields()
-        })
-      }
-    },
-    visible(newV, oldV) {
-      this.$emit('update:show', newV)
+      isResetSuccess: false,
+      subTitle: '重设密码',
+      callback: null,
+      // 异步处理模式，所有操作都需要手动关闭弹框
+      async: false
     }
   },
   methods: {
@@ -103,6 +87,7 @@ export default {
       callback()
     },
     close() {
+      this.$refs.resetForm.resetFields()
       this.visible = false
     },
     onChangeNewPassword() {
@@ -110,7 +95,7 @@ export default {
     },
     onSubmit() {
       if (this.isResetSuccess) {
-        this.visible = false
+        this.handleAction('confirm')
         this.isResetSuccess = false
         this.$store.dispatch('user/logout')
         return false
@@ -136,6 +121,17 @@ export default {
           }
         }
       })
+    },
+    doClose() {
+      if (!this.async) {
+        this.close()
+      }
+      // 暂时关闭promise回调
+      // this.callback(this.action, this)
+    },
+    handleAction(action) {
+      this.action = action
+      this.doClose()
     }
   }
 }
