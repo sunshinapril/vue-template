@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: 'TBody'
+  name: 'TBody',
+  data() {
+    return {
+      aa: '你好'
+    }
+  }
 }
 </script>
 

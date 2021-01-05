@@ -20,7 +20,13 @@
           prop="address"
           label="地址"
         />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            {{ scope.row.name }}
+          </template>
+        </el-table-column>
       </t-table>
+
     </t-body>
   </div>
 </template>
