@@ -65,6 +65,10 @@
           <t-input v-model="form.address" />
         </el-form-item>
       </template>
+      <template v-slot:footer="slotProps">
+        <t-button type="info" @click="slotProps.onCancel">取消1</t-button>
+        <t-button @click="slotProps.onSave">确 定1</t-button>
+      </template>
     </t-dialog>
   </div>
 </template>

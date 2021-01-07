@@ -12,8 +12,10 @@
     </el-form>
     <slot />
     <div slot="footer" class="dialog-footer">
-      <t-button type="info" @click="onCancel">取 消</t-button>
-      <t-button @click="onSave">确 定</t-button>
+      <slot name="footer" :onSave="onSave" :onCancel="onCancel">
+        <t-button type="info" @click="onCancel">取 消</t-button>
+        <t-button @click="onSave">确 定</t-button>
+      </slot>
     </div>
   </el-dialog>
 </template>
@@ -39,10 +41,6 @@ export default {
     rules: {
       type: Object,
       default: null
-    },
-    disabled: {
-      type: Boolean,
-      default: false
     },
     width: {
       type: String,
