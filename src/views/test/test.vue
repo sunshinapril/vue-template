@@ -1,7 +1,7 @@
 <template>
   <div>
     <label class="t-label">按钮</label>
-    <t-button type="primary">primary</t-button>
+    <t-button type="primary" @click="showDialog = true">primary</t-button>
     <t-button type="danger">danger</t-button>
     <t-button type="success">success</t-button>
     <t-button type="plain">info</t-button>
@@ -56,14 +56,16 @@
         </template>
       </el-table-column>
     </t-table>
-    <t-dialog :show.sync="showDialog" :form="form" :rules="rules" :title="title">
+    <t-dialog :show.sync="showDialog" :title="title" @on-submit="submit">
       <template slot="form">
-        <el-form-item prop="name" label="姓名">
-          <t-input v-model="form.name" />
-        </el-form-item>
-        <el-form-item prop="address" label="地址">
-          <t-input v-model="form.address" />
-        </el-form-item>
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px" label-position="left">
+          <el-form-item prop="name" label="姓名">
+            <t-input v-model="form.name" />
+          </el-form-item>
+          <el-form-item prop="address" label="地址">
+            <t-input v-model="form.address" />
+          </el-form-item>
+        </el-form>
       </template>
       <template v-slot:footer="slotProps">
         <t-button type="info" @click="slotProps.onCancel">取消1</t-button>
@@ -137,7 +139,7 @@ export default {
         ]
       },
       showDialog: false,
-      title: ''
+      title: '新增'
     }
   },
   created() {
@@ -187,6 +189,9 @@ export default {
         name: row.name,
         address: row.address
       }
+    },
+    submit() {
+      this.showDialog = false
     }
   }
 }

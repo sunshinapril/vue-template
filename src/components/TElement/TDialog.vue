@@ -1,15 +1,11 @@
 <template>
   <el-dialog :visible.sync="visible" :width="width || '392px'" :close-on-click-modal="false" @close="close">
     <template slot="title">
-      <span v-if="title">{{ title }}</span>
+      <span v-if="title" ref="myForm">{{ title }}</span>
     </template>
-    <el-form v-if="tForm" ref="form" :model="tForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-      <slot
-        name="form"
-        v-bind="{...$props, ...$attrs}"
-        v-on="{...$listeners}"
-      />
-    </el-form>
+    <slot
+      name="form"
+    />
     <slot />
     <div slot="footer" class="dialog-footer">
       <slot name="footer" :onSave="onSave" :onCancel="onCancel">
@@ -22,7 +18,10 @@
 
 <script>
 import { isArray, isObject } from 'lodash'
-
+/*
+* 暂时通过this.$parent.$refs.form来获取form
+* 此处仅对form进行重置，赋值为空操作
+* */
 export default {
   name: 'TDialog',
   props: {
@@ -34,25 +33,9 @@ export default {
       type: String,
       default: ''
     },
-    form: {
-      type: Object,
-      default: () => {}
-    },
-    rules: {
-      type: Object,
-      default: null
-    },
     width: {
       type: String,
       default: ''
-    },
-    labelPosition: {
-      type: String,
-      default: 'left'
-    },
-    labelWidth: {
-      type: String,
-      default: '60px'
     }
   },
   data() {
@@ -61,25 +44,16 @@ export default {
       originalForm: null
     }
   },
-  computed: {
-    tForm: {
-      get() {
-        return this.form
-      },
-      set(val) {
-        this.$emit('update:form', val)
-      }
-    }
-  },
   watch: {
     show: {
       immediate: true,
       handler(val) {
         this.visible = val
-        if (this.form) {
-          this.originalForm = JSON.stringify(this.form)
-          this.tForm = this.form
-        }
+        this.$nextTick(() => {
+          if (this.$parent.$refs.form && this.$parent.$refs.form.model) {
+            this.originalForm = JSON.stringify(this.$parent.$refs.form.model || {})
+          }
+        })
       }
     },
     visible(val) {
@@ -92,8 +66,8 @@ export default {
     },
     resetForm() {
       try {
-        if (this.form) {
-          const form = JSON.parse(this.originalForm)
+        if (this.$parent.$refs.form.model) {
+          const form = this.$parent.$refs.form.model || {}
           Object.keys(form).forEach(item => {
             if (isArray(form[item])) {
               form[item] = []
@@ -103,9 +77,9 @@ export default {
               form[item] = ''
             }
           })
-          this.tForm = form
+          this.$parent.$refs.form.model = form
           this.$nextTick(() => {
-            this.$refs.form.clearValidate()
+            this.$parent.$refs.form.clearValidate()
           })
         }
         // eslint-disable-next-line no-empty
@@ -113,10 +87,10 @@ export default {
       this.visible = false
     },
     onSave() {
-      if (this.form) {
-        this.$refs.form.validate((valid) => {
+      if (this.$parent.$refs.form) {
+        this.$parent.$refs.form.validate((valid) => {
           if (valid) {
-            if (this.originalForm === JSON.stringify(this.form)) {
+            if (this.originalForm === JSON.stringify(this.$parent.$refs.form.model)) {
               this.close()
               this.$notify({
                 title: '未修改',
