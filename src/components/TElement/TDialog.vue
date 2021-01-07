@@ -87,7 +87,6 @@ export default {
       this.visible = false
     },
     onSave() {
-      console.log(this.$slots.form[0].componentInstance, '---')
       if (this.$slots.form) {
         this.$slots.form[0].componentInstance.validate((valid) => {
           if (valid) {
