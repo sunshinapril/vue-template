@@ -15,7 +15,6 @@ import TCascader from './TElement/TCascader'
 import TSlider from './TElement/TSlider'
 import THeader from './THeader'
 import TBody from './TBody'
-import ResetPasswordBox from '@/components/TResetPassword'
 
 export default {
   install(Vue) {
@@ -36,6 +35,5 @@ export default {
     Vue.component(TSlider.name, TSlider)
     Vue.component(THeader.name, THeader)
     Vue.component(TBody.name, TBody)
-    Vue.prototype.$resetPassword = ResetPasswordBox.alert
   }
 }

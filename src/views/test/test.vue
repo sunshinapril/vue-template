@@ -28,20 +28,44 @@
     <div style="padding: 5px 0" />
     <t-table
       :query="query"
+      @sort-change="sortChange"
     >
       <el-table-column
         prop="date"
         label="日期"
+        sortable
       />
       <el-table-column
         prop="name"
+        sortable
         label="姓名"
       />
       <el-table-column
         prop="address"
         label="地址"
       />
+      <el-table-column
+        label="操作"
+        fixed="right"
+        align="center"
+        width="150"
+      >
+        <template slot-scope="scope">
+          <text-button @click="onEdit(scope.row)">编辑</text-button>
+          <text-button type="danger" @click="onDel(scope.row)">删除</text-button>
+        </template>
+      </el-table-column>
     </t-table>
+    <t-dialog :show.sync="showDialog" :form="form" :rules="rules" :title="title">
+      <template slot="form">
+        <el-form-item prop="name" label="姓名">
+          <t-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item prop="address" label="地址">
+          <t-input v-model="form.address" />
+        </el-form-item>
+      </template>
+    </t-dialog>
   </div>
 </template>
 
@@ -82,19 +106,34 @@ export default {
           address: '上海市普陀区金沙江路 1518 弄'
         }, {
           date: '2016-05-04',
-          name: '王小虎',
+          name: '小明',
           address: '上海市普陀区金沙江路 1517 弄'
         }, {
           date: '2016-05-01',
-          name: '王小虎',
+          name: '小红',
           address: '上海市普陀区金沙江路 1519 弄'
         }, {
           date: '2016-05-03',
-          name: '王小虎',
+          name: '小蓝',
           address: '上海市普陀区金沙江路 1516 弄'
         }
       ],
-      query: null
+      query: null,
+      sort: 'id ascending',
+      form: {
+        name: '',
+        address: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '姓名必填', trigger: 'blur' }
+        ],
+        address: [
+          { required: true, message: '地址必填', trigger: 'blur' }
+        ]
+      },
+      showDialog: false,
+      title: ''
     }
   },
   created() {
@@ -103,7 +142,7 @@ export default {
   methods: {
     setQuery() {
       this.query = (page, size) => {
-        console.log(page, size)
+        console.log(page, size, this.sort)
         return Promise.resolve({
           data: this.tableData,
           total: 80
@@ -112,6 +151,38 @@ export default {
     },
     dateFormPickerChange(val) {
       console.log(val)
+    },
+    sortChange({ prop, order }) {
+      this.sort = order ? `${prop} ${order}` : ''
+      this.setQuery()
+    },
+    onDel(row) {
+      if (row.id) {
+        this.$alertBox('该条数据被外链关联，请先解除关联关系', '提示', {
+          confirmButtonText: '我知道了'
+        }).then(res => {
+          console.log('删除')
+        }).catch(() => {
+          console.log('取消')
+        })
+      } else {
+        this.$messageBox(`<p style="color: palevioletred">确定删除${row.name}吗？</p>`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(res => {
+          console.log('确定')
+        }).catch(() => {
+          console.log('取消')
+        })
+      }
+    },
+    onEdit(row) {
+      this.showDialog = true
+      this.title = '编辑'
+      this.form = {
+        name: row.name,
+        address: row.address
+      }
     }
   }
 }

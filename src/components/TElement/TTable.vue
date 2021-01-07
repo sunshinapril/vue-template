@@ -22,12 +22,16 @@
       class="base-table"
       :style="styles ? styles : 'width: 100%'"
       @selection-change="selectionChange"
+      @sort-change="sortChange"
     >
       <el-table-column v-if="selection" type="selection" align="center" width="55" />
       <slot />
     </el-table>
-    <t-pagination v-if="showPagination" class="pagination-box" :options="pageOpt"
-                  @pagination-change="paginationChange"
+    <t-pagination
+      v-if="showPagination"
+      class="pagination-box"
+      :options="pageOpt"
+      @pagination-change="paginationChange"
     />
   </div>
 </template>
@@ -111,6 +115,12 @@ export default {
     },
     selectionChange(selection) {
       this.$emit('selection-change', selection)
+    },
+    sortChange({ prop, order }) {
+      this.$emit('sort-change', {
+        prop: prop,
+        order: order
+      })
     },
     paginationChange(data) {
       this.pageOpt = data

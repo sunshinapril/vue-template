@@ -7,6 +7,7 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/dataZoom'
 import api from '@/api'
 import MessageBox from '@/components/TMessageBox'
+import ResetPasswordBox from '@/components/TResetPassword'
 
 export default {
   // eslint-disable-next-line no-unused-vars
@@ -16,5 +17,6 @@ export default {
     Vue.prototype.$api = api
     Vue.prototype.$messageBox = MessageBox.confirm
     Vue.prototype.$alertBox = MessageBox.alert
+    Vue.prototype.$resetPassword = ResetPasswordBox.alert
   }
 }

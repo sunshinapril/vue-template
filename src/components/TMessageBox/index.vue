@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="visible" :width="width || '392px'" @close="close">
+  <el-dialog v-el-drag-dialog :visible.sync="visible" :width="width || '392px'" @close="close">
     <template slot="title">
       <span v-if="title">{{ title }}</span>
     </template>

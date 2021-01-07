@@ -3,7 +3,7 @@
     <template slot="title">
       <span v-if="title">{{ title }}</span>
     </template>
-    <el-form v-if="tForm" ref="form" :model="tForm" :rules="rules" label-width="120px" label-position="top">
+    <el-form v-if="tForm" ref="form" :model="tForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
       <slot
         name="form"
         v-bind="{...$props, ...$attrs}"
@@ -11,12 +11,9 @@
       />
     </el-form>
     <slot />
-    <div v-if="disabled" slot="footer" class="dialog-footer">
-      <TButton class="n-el-button n-el-button-save" @click="onCancel">确 定</TButton>
-    </div>
-    <div v-else slot="footer" class="dialog-footer">
-      <TButton type="info" @click="onCancel">取 消</TButton>
-      <TButton @click="onSave">确 定</TButton>
+    <div slot="footer" class="dialog-footer">
+      <t-button type="info" @click="onCancel">取 消</t-button>
+      <t-button @click="onSave">确 定</t-button>
     </div>
   </el-dialog>
 </template>
@@ -40,8 +37,8 @@ export default {
       default: () => {}
     },
     rules: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: null
     },
     disabled: {
       type: Boolean,
@@ -50,6 +47,14 @@ export default {
     width: {
       type: String,
       default: ''
+    },
+    labelPosition: {
+      type: String,
+      default: 'left'
+    },
+    labelWidth: {
+      type: String,
+      default: '60px'
     }
   },
   data() {
@@ -147,7 +152,7 @@ export default {
   color: #0D2B5E;
 }
 /deep/ .el-dialog__body {
-  padding: 20px 0 0;
+  padding: 20px 20px 0;
   .el-form-item {
     margin-bottom: 16px;
   }
