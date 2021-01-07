@@ -19,7 +19,7 @@
 <script>
 import { isArray, isObject } from 'lodash'
 /*
-* 暂时通过this.$parent.$refs.form来获取form
+* 暂时通过this.$slots.form[0].componentInstance来获取form
 * 此处仅对form进行重置，赋值为空操作
 * */
 export default {
@@ -50,8 +50,8 @@ export default {
       handler(val) {
         this.visible = val
         this.$nextTick(() => {
-          if (this.$parent.$refs.form && this.$parent.$refs.form.model) {
-            this.originalForm = JSON.stringify(this.$parent.$refs.form.model || {})
+          if (this.$slots.form[0].componentInstance && this.$slots.form[0].componentInstance.model) {
+            this.originalForm = JSON.stringify(this.$slots.form[0].componentInstance.model || {})
           }
         })
       }
@@ -66,8 +66,8 @@ export default {
     },
     resetForm() {
       try {
-        if (this.$parent.$refs.form.model) {
-          const form = this.$parent.$refs.form.model || {}
+        if (this.$slots.form && this.$slots.form[0].componentInstance.model) {
+          const form = this.$slots.form[0].componentInstance.model || {}
           Object.keys(form).forEach(item => {
             if (isArray(form[item])) {
               form[item] = []
@@ -77,9 +77,9 @@ export default {
               form[item] = ''
             }
           })
-          this.$parent.$refs.form.model = form
+          this.$slots.form[0].componentInstance.model = form
           this.$nextTick(() => {
-            this.$parent.$refs.form.clearValidate()
+            this.$slots.form[0].componentInstance.clearValidate()
           })
         }
         // eslint-disable-next-line no-empty
@@ -87,10 +87,11 @@ export default {
       this.visible = false
     },
     onSave() {
-      if (this.$parent.$refs.form) {
-        this.$parent.$refs.form.validate((valid) => {
+      console.log(this.$slots.form[0].componentInstance, '---')
+      if (this.$slots.form) {
+        this.$slots.form[0].componentInstance.validate((valid) => {
           if (valid) {
-            if (this.originalForm === JSON.stringify(this.$parent.$refs.form.model)) {
+            if (this.originalForm === JSON.stringify(this.$slots.form[0].componentInstance.model)) {
               this.close()
               this.$notify({
                 title: '未修改',
