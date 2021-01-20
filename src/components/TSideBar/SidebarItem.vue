@@ -1,12 +1,12 @@
 <template>
-  <div v-if="!item.hidden">
+  <div v-if="!item.hidden" class="t-item">
     <el-menu-item
       v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !item.alwaysShow"
       :index="onlyOneChild.path"
       class="menu-bottom"
     >
       <i v-if="onlyOneChild.meta && onlyOneChild.meta.icon" class="ic-menu">
-        <img :src="onlyOneChild.meta.icon">
+        <img :src="defaultActive === onlyOneChild.path ? onlyOneChild.meta.activeIcon :onlyOneChild.meta.icon">
       </i>
       {{ onlyOneChild.meta.title }}
     </el-menu-item>
@@ -14,12 +14,15 @@
     <el-submenu v-if="item.children && item.children.length > 1" :index="item.path" popper-append-to-body>
       <template slot="title">
         <i v-if="item.meta.icon" class="ic-menu">
-          <img :src="item.meta.icon">
+          <img :src="defaultActive === item.path ? item.meta.activeIcon : item.meta.icon">
         </i>
         <span>{{ item.meta.title }}</span>
       </template>
       <template v-for="child in item.children">
         <el-menu-item v-if="!child.hidden" :key="child.path" :index="item.path + '/' + child.path">
+          <i v-if="child.meta.icon" class="ic-menu">
+            <img :src="defaultActive === (item.path + '/' + child.path) ? child.meta.activeIcon : child.meta.icon">
+          </i>
           {{ child.meta.title }}
         </el-menu-item>
       </template>
@@ -33,6 +36,10 @@ export default {
   props: {
     item: {
       type: Object,
+      required: true
+    },
+    defaultActive: {
+      type: String,
       required: true
     }
   },
@@ -70,6 +77,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.t-item {
+  width: 180px;
+  margin: 0 auto;
+  .el-menu-item {
+    min-width: 100px;
+  }
+}
 .ic-menu {
   width: 15px;
   height: 15px;
@@ -84,59 +98,30 @@ export default {
 }
 /deep/ .el-submenu__title, /deep/ .el-menu-item {
   position: relative;
-  opacity: .8;
-  &::before{
-    width: 3px;
-    height: 30px;
-    background: #292E33;
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-  }
+  font-size: 14px;
+  background: #EDF3FC !important;
+  color: #95A4BD !important;
+  border-radius: 12px;
   &:hover{
-    background:rgba(74,128,245, .2) !important;
-    opacity: 1;
-    &::before {
-      background: rgb(74,128,245)
-    }
+    color: #4A80F5 !important;
+    background: #E3EBFC !important;
   }
-}
-.menu-bottom {
-  width: 100%;
-  height: 1px;
-  background: rgba(242, 242, 242, .1);
-  position: absolute;
-  bottom: 0;
-  left: 20px;
+  .el-submenu__icon-arrow {
+    display: none;
+  }
 }
 /deep/ .el-submenu, .menu-bottom {
-  position: relative;
-  &::after {
-    content: '';
-    width: 180px;
-    height: 1px;
-    background: rgba(242, 242, 242, .1);
-    position: absolute;
-    bottom: 0;
-    left: 20px;
-  }
+  background: #EDF3FC !important;
   .el-menu-item {
     height: 46px;
     line-height: 46px;
   }
 }
-.menu-bottom {
-  height: 56px;
-  left: 0;
-}
 /deep/ .el-menu-item.is-active {
-  background:rgba(74,128,245, .2) !important;
-  color: #ffffff;
-  opacity: 1;
-  &::before {
-    background: rgb(74,128,245)
-  }
+  background: rgb(74,128,245) !important;
+  color: #ffffff !important;
+}
+/deep/ .el-menu {
+  background: #EDF3FC !important;
 }
 </style>

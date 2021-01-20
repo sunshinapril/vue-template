@@ -30,13 +30,15 @@ export default {
 <style lang="less" scoped>
 .g-main {
   height: 100%;
+  background: #EDF3FC;
   .aside-box {
     width: 220px !important;
     height: 100%;
     background: #EDF3FC;
   }
   .g-container {
-    padding: 0 20px;
+    //padding: 0 20px;
+    padding-right: 20px;
     flex-direction: column;
     .g-router-view {
       height: 100%;

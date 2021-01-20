@@ -67,9 +67,9 @@
           </el-form-item>
         </el-form>
       </template>
-      <template v-slot:footer="slotProps">
-        <t-button type="info" @click="slotProps.onCancel">取消1</t-button>
-        <t-button @click="slotProps.onSave">确 定1</t-button>
+      <template v-slot:footer="{onCancel, onSave}">
+        <t-button type="info" @click="onCancel">取消1</t-button>
+        <t-button @click="onSave">确 定1</t-button>
       </template>
     </t-dialog>
   </div>

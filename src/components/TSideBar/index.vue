@@ -9,7 +9,7 @@
     :router="true"
   >
     <i class="logo" />
-    <sidebar-item v-for="route in routes" :key="route.path" :item="route" />
+    <sidebar-item v-for="route in routes" :key="route.path" :item="route" :default-active="defaultActive" />
   </el-menu>
 </template>
 
@@ -43,12 +43,14 @@ export default {
 <style lang="less" scoped>
 .el-menu {
   min-height: 100%;
+  background: #EDF3FC !important;
+  border-right: none;
 }
 .logo {
-  margin: 37px 39px 14px 17px;
+  margin: 40px;
   height: 58px;
   width: auto;
-  background: url("~@/assets/images/logo.png") center center no-repeat;
+  background: url("~@/assets/images/logo_icon@2x.png") center center no-repeat;
   background-size: contain;
   display: block;
 }

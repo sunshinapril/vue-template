@@ -1,5 +1,12 @@
 <template>
-  <el-dialog v-el-drag-dialog :visible.sync="visible" :width="width || '392px'" @close="close">
+  <el-dialog
+    v-el-drag-dialog
+    :close-on-click-modal="false"
+    :show-close="showClose"
+    :visible.sync="visible"
+    :width="width || '392px'"
+    @close="handleAction('cancel')"
+  >
     <template slot="title">
       <span v-if="title">{{ title }}</span>
     </template>
@@ -32,7 +39,8 @@ export default {
       // 异步处理模式，所有操作都需要手动关闭弹框
       async: false,
       callback: null,
-      type: ''
+      type: '',
+      showClose: true
     }
   },
   mounted() {

@@ -4,7 +4,8 @@ const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
-import HomeIc from '~/icon/ic-home.png'
+import HomeIc from '~/icon/tab_01_icon@2x.png'
+import HomeIcActive from '~/icon/tab_01.1_icon@2x.png'
 
 const Layout = () => import('@/views/Layout.vue')
 
@@ -39,7 +40,8 @@ export const constantRouterMap = [
       name: 'Home',
       meta: {
         title: '首页',
-        icon: HomeIc
+        icon: HomeIc,
+        activeIcon: HomeIcActive
       }
     }]
   },

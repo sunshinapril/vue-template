@@ -1,4 +1,5 @@
-import TagIc from '~/icon/ic-tag.png'
+import TagIc from '~/icon/tab_06_icon@2x.png'
+import TagIcActive from '~/icon/tab_06.1_icon@2x.png'
 export default {
   name: '标签管理',
   path: '/tag',
@@ -6,7 +7,8 @@ export default {
   component: 'Layout',
   meta: {
     title: '标签管理',
-    icon: TagIc
+    icon: TagIc,
+    activeIcon: TagIcActive
   },
   children: [
     {
