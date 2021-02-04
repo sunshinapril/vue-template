@@ -6,7 +6,7 @@
       :page-sizes="options.pageSizes"
       :page-size="options.pageSize"
       :total="options.total"
-      layout="total, prev, pager, next, sizes, jumper"
+      :layout="layout"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -34,6 +34,10 @@ export default {
           total: 0
         }
       }
+    },
+    layout: {
+      type: String,
+      default: 'total, prev, pager, next, sizes, jumper'
     }
   },
   methods: {

@@ -21,7 +21,10 @@ import Filters from '@/filters/index'
 import Directives from '@/directives/index'
 import router from '@/router/routers'
 import './router/index'
+// 数据字典
+import dict from './components/Dict'
 Vue.config.productionTip = false
+Vue.use(dict)
 Vue.use(Element, { size: 'medium' })
 Vue.use(VueVirtualScroller)
 Vue.use(Components)

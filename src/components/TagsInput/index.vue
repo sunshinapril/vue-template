@@ -1,6 +1,5 @@
 <style lang="less">
 @import '~@/styles/colors.less';
-@import '~@/styles/mixins.less';
 .custom-vue-tags-input {
   /* 修改标签背景颜色 */
   /deep/ .ti-tag {
@@ -86,12 +85,12 @@ export default {
       })
     },
     onTagsChanged(tags) {
-      /* 输入之后, tags 就是全量的输入的数组, 但是格式不是我们所需要的, 所以我们需要额外处理一下 
-         将值给到 parent 之后, 
+      /* 输入之后, tags 就是全量的输入的数组, 但是格式不是我们所需要的, 所以我们需要额外处理一下
+         将值给到 parent 之后,
          parent 会将这个值给到 value
          value 会传递给自己
          value 此时就是一个 [a,b,c] 这样子的格式
-         我们再把 value 转换一下, 给到 tags 
+         我们再把 value 转换一下, 给到 tags
          这就形成了一个闭环
       */
       this.$emit('input', tags.map(tag => { return tag.text }));

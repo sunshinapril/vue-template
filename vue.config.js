@@ -3,7 +3,7 @@ const path = require('path')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-
+const name = 'cms-template'
 module.exports = {
   publicPath: './',
   lintOnSave: 'error',
@@ -25,7 +25,7 @@ module.exports = {
     requireModuleExtension: true
   },
   configureWebpack: {
-    name: 'name',
+    name: name,
     resolve: {
       alias: {
         '@': resolve('src'),

@@ -10,51 +10,40 @@
 <template>
   <div class="table-container">
     <el-table
+      ref="table"
       v-loading="loading"
-      border
       fit
       highlight-current-row
       :header-cell-style="headerCellStyle"
       :data="list"
       :default-expand-all="false"
-      :tree-props="{children: children}"
       row-key="id"
       class="base-table"
-      :style="styles ? styles : 'width: 100%'"
-      @selection-change="selectionChange"
-      @sort-change="sortChange"
+      v-bind="{...$attrs}"
+      v-on="{...$listeners}"
+      @select-all="handleSelectAll"
+      @select="handleSelect"
     >
-      <el-table-column v-if="selection" type="selection" align="center" width="55" />
       <slot />
     </el-table>
     <t-pagination
       v-if="showPagination"
       class="pagination-box"
       :options="pageOpt"
+      :layout="layout"
       @pagination-change="paginationChange"
     />
   </div>
 </template>
 
 <script>
+import { flattenTreeToArray } from '@/utils'
 export default {
   name: 'TTable',
   props: {
     query: {
       type: Function,
       default: null
-    },
-    children: {
-      type: String,
-      default: ''
-    },
-    styles: {
-      type: String,
-      default: ''
-    },
-    selection: {
-      type: Boolean,
-      default: false
     },
     data: {
       type: Array,
@@ -63,6 +52,10 @@ export default {
     total: {
       type: Number,
       default: 0
+    },
+    layout: {
+      type: String,
+      default: 'total, prev, pager, next, sizes, jumper'
     }
   },
   data() {
@@ -106,21 +99,39 @@ export default {
     }
   },
   methods: {
+    // 手动选中某一行，自动选择所有子元素, 由于该事件会在selection-change之前触发，所以修改内容会被覆盖，需要添加settimeout矫正时序
+    handleSelect(rows, currentRow) {
+      setTimeout(() => {
+        const arr = flattenTreeToArray(currentRow, c => c.children).distinct()
+        if (arr.length > 1) {
+          const isChecked = rows.indexOf(currentRow) >= 0
+          const table = this.$refs.table
+          arr.forEach(row => {
+            table.toggleRowSelection(row, isChecked)
+          })
+        }
+      }, 0)
+    },
+    // 全选/取消全选，修复el-table配置tree-props时全选按钮无法控制子元素的问题
+    handleSelectAll(rows) {
+      const data = this.list
+      if (data && data.length) {
+        const arr = flattenTreeToArray(data, c => c.children).distinct()
+        if (arr.length > data.length) {
+          const isChecked = rows.indexOf(data[0]) >= 0
+          const table = this.$refs.table
+          arr.forEach(row => {
+            table.toggleRowSelection(row, isChecked)
+          })
+        }
+      }
+    },
     headerCellStyle() {
       return {
         background: '#F8F8FA',
         color: '#0D2B5E',
         fontSize: '12px'
       }
-    },
-    selectionChange(selection) {
-      this.$emit('selection-change', selection)
-    },
-    sortChange({ prop, order }) {
-      this.$emit('sort-change', {
-        prop: prop,
-        order: order
-      })
     },
     paginationChange(data) {
       this.pageOpt = data

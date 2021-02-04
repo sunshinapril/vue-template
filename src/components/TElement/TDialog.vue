@@ -50,7 +50,7 @@ export default {
       handler(val) {
         this.visible = val
         this.$nextTick(() => {
-          if (this.$slots.form[0].componentInstance && this.$slots.form[0].componentInstance.model) {
+          if (this.$slots.form && this.$slots.form[0].componentInstance && this.$slots.form[0].componentInstance.model) {
             this.originalForm = JSON.stringify(this.$slots.form[0].componentInstance.model || {})
           }
         })
@@ -109,7 +109,9 @@ export default {
     },
     close() {
       this.$emit('on-close')
-      this.resetForm()
+      this.$nextTick(() => {
+        this.resetForm()
+      })
     }
   }
 }

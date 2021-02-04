@@ -105,16 +105,16 @@ export default {
   &:hover{
     color: #4A80F5 !important;
     background: #E3EBFC !important;
-  }
-  .el-submenu__icon-arrow {
-    display: none;
+    .el-submenu__icon-arrow {
+      color: #4A80F5 !important;
+    }
   }
 }
 /deep/ .el-submenu, .menu-bottom {
   background: #EDF3FC !important;
-  .el-menu-item {
-    height: 46px;
-    line-height: 46px;
+  &.el-menu-item, .el-submenu__title {
+    height: 50px;
+    line-height: 50px;
   }
 }
 /deep/ .el-menu-item.is-active {

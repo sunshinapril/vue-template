@@ -51,3 +51,37 @@ export function uuid(len, radix) {
   return uid.join('')
 }
 
+
+export function flattenTreeToArray(tree, subTreeSelector, seed = []) {
+  if (!subTreeSelector) {
+    throw new Error('subTreeSelector is required')
+  }
+  if (!tree) {
+    return seed
+  }
+  if (!(tree instanceof Array)) {
+    tree = [tree]
+  }
+  return tree.reduce((res, node) => {
+    res.push(node)
+    const subTree = subTreeSelector(node)
+    if (subTree && subTree.length) {
+      res = flattenTreeToArray(subTree, subTreeSelector, res)
+    }
+    return res
+  }, seed)
+}
+
+export function Distinct(arr, compare = (a, b) => a === b) {
+  return arr.reduce((list, item) => {
+    if (!list.some(c => compare(c, item))) {
+      list.push(item)
+    }
+    return list
+  }, [])
+}
+
+// eslint-disable-next-line no-extend-native
+Array.prototype.distinct = function(compare) {
+  return Distinct(this, compare)
+}
