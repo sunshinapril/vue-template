@@ -51,7 +51,6 @@ export function uuid(len, radix) {
   return uid.join('')
 }
 
-
 export function flattenTreeToArray(tree, subTreeSelector, seed = []) {
   if (!subTreeSelector) {
     throw new Error('subTreeSelector is required')
