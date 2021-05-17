@@ -6,23 +6,11 @@ export default {
   component: 'Layout',
   children: [
     {
-      name: 'demo',
-      path: 'demo',
-      component: 'Outlet',
-      meta: {
-        isMenu: true,
-        title: '外链',
-        outLink: () => 'http://www.baidu.com',
-        target: '_blank'
-      }
-    },
-    {
       name: 'test',
       path: 'test',
       component: 'test/test',
       meta: {
         title: 'Button',
-        isMenu: true,
         icon: TestIc,
         activeIcon: TestIcActive
       }

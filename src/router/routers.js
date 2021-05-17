@@ -15,7 +15,7 @@ export const constantRouterMap = [
     hidden: true,
     component: () => import('@/views/feature/Login.vue'),
     meta: {
-      label: '登录',
+      title: '登录',
       uncheck: true
     }
   },
@@ -26,6 +26,7 @@ export const constantRouterMap = [
     children: [
       {
         path: '/redirect/:path*',
+        hidden: true,
         component: () => import('@/views/feature/redirect')
       }
     ]
@@ -35,7 +36,7 @@ export const constantRouterMap = [
     redirect: '/home',
     component: Layout,
     children: [{
-      path: '/home',
+      path: 'home',
       component: () => import('@/views/Home'),
       name: 'Home',
       meta: {
@@ -50,7 +51,7 @@ export const constantRouterMap = [
     hidden: true,
     component: () => import('@/views/feature/404.vue'),
     meta: {
-      label: '404'
+      title: '404'
     }
   },
   {
@@ -58,7 +59,7 @@ export const constantRouterMap = [
     hidden: true,
     component: () => import('@/views/feature/Forbidden.vue'),
     meta: {
-      label: '没有权限'
+      title: '没有权限'
     }
   }
 ]

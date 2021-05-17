@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
-    "@tinymce/tinymce-vue": "^3.2.7",
     "animate.css": "^4.1.1",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
