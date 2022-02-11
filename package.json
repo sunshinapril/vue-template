@@ -21,7 +21,7 @@
     "element-ui": "^2.14.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "normalize.css": "^8.0.1",
     "q": "^1.5.1",
     "sass-loader": "^10.0.5",
